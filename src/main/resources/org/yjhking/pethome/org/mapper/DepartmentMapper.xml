@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yjhking.pethome.org.mapper.DepartmentMapper">
+    <resultMap id="BaseResultMap" type="org.yjhking.pethome.org.domain.Department">
+        <!--@Table t_department-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="sn" jdbcType="VARCHAR" property="sn"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="dirPath" jdbcType="VARCHAR" property="dirpath"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="manager_id" jdbcType="BIGINT" property="managerId"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        sn,
+        `name`,
+        dirPath,
+        `state`,
+        manager_id,
+        parent_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_department
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_department
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="org.yjhking.pethome.org.domain.Department" useGeneratedKeys="true">
+        insert into t_department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sn != null">
+                sn,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="dirpath != null">
+                dirPath,
+            </if>
+            <if test="state != null">
+                `state`,
+            </if>
+            <if test="managerId != null">
+                manager_id,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sn != null">
+                #{sn,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="dirpath != null">
+                #{dirpath,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="managerId != null">
+                #{managerId,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.yjhking.pethome.org.domain.Department">
+        update t_department
+        <set>
+            <if test="sn != null">
+                sn = #{sn,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="dirpath != null">
+                dirPath = #{dirpath,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                `state` = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="managerId != null">
+                manager_id = #{managerId,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_department
+    </select>
+    <select id="queryCount" resultType="java.lang.Long">
+        select count(*)
+        from t_department
+    </select>
+    <select id="queryData" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_department limit #{begin},#{pageSize}
+    </select>
+</mapper>
