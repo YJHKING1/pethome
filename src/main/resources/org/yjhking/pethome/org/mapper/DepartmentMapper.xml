@@ -2,11 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.yjhking.pethome.org.mapper.DepartmentMapper">
     <resultMap id="BaseResultMap" type="org.yjhking.pethome.org.domain.Department">
-        <!--@Table t_department-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="sn" jdbcType="VARCHAR" property="sn"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="dirPath" jdbcType="VARCHAR" property="dirpath"/>
+        <result column="dirPath" jdbcType="VARCHAR" property="dirPath"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
         <result column="manager_id" jdbcType="BIGINT" property="managerId"/>
         <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
@@ -27,7 +26,8 @@
         where id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from t_department
+        delete
+        from t_department
         where id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
@@ -40,7 +40,7 @@
             <if test="name != null">
                 `name`,
             </if>
-            <if test="dirpath != null">
+            <if test="dirPath != null">
                 dirPath,
             </if>
             <if test="state != null">
@@ -60,8 +60,8 @@
             <if test="name != null">
                 #{name,jdbcType=VARCHAR},
             </if>
-            <if test="dirpath != null">
-                #{dirpath,jdbcType=VARCHAR},
+            <if test="dirPath != null">
+                #{dirPath,jdbcType=VARCHAR},
             </if>
             <if test="state != null">
                 #{state,jdbcType=INTEGER},
@@ -83,8 +83,8 @@
             <if test="name != null">
                 `name` = #{name,jdbcType=VARCHAR},
             </if>
-            <if test="dirpath != null">
-                dirPath = #{dirpath,jdbcType=VARCHAR},
+            <if test="dirPath != null">
+                dirPath = #{dirPath,jdbcType=VARCHAR},
             </if>
             <if test="state != null">
                 `state` = #{state,jdbcType=INTEGER},
@@ -107,9 +107,26 @@
         select count(*)
         from t_department
     </select>
-    <select id="queryData" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from t_department limit #{begin},#{pageSize}
+    <resultMap id="DepartmentMap" type="Department">
+        <id property="id" column="id"/>
+        <result property="sn" column="sn"/>
+        <result property="name" column="name"/>
+        <result property="dirPath" column="dirPath"/>
+        <result property="state" column="state"/>
+        <association property="manager" javaType="org.yjhking.pethome.org.domain.Employee">
+            <id property="id" column="eid"/>
+            <result property="username" column="username"/>
+        </association>
+        <association property="parent" javaType="org.yjhking.pethome.org.domain.Department">
+            <id property="id" column="pid"/>
+            <result property="name" column="pname"/>
+        </association>
+    </resultMap>
+    <select id="queryData" resultMap="DepartmentMap">
+        select d.*, e.id eid, e.username, p.id pid, p.name pname
+        from t_department d
+        left join t_employee e on d.manager_id = e.id
+        left join t_department p on d.parent_id = p.id
+        limit #{begin},#{pageSize}
     </select>
 </mapper>

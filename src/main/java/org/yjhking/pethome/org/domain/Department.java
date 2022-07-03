@@ -15,11 +15,21 @@ public class Department {
     
     private String name;
     
-    private String dirpath;
+    private String dirPath;
     
     private Integer state;
     
     private Long managerId;
     
+    /**
+     * 部门经理
+     */
+    private Employee manager;
+    
     private Long parentId;
+    
+    /**
+     * 上级部门
+     */
+    private Department parent;
 }
