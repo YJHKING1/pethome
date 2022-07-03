@@ -25,13 +25,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     
     @Transactional
     @Override
-    public int deleteByPrimaryKey(Long id) {
+    public Long deleteByPrimaryKey(Long id) {
         return employeeMapper.deleteByPrimaryKey(id);
     }
     
     @Transactional
     @Override
-    public int insertSelective(Employee employee) {
+    public Long insertSelective(Employee employee) {
         return employeeMapper.insertSelective(employee);
     }
     
@@ -42,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     
     @Transactional
     @Override
-    public int updateByPrimaryKeySelective(Employee employee) {
+    public Long updateByPrimaryKeySelective(Employee employee) {
         return employeeMapper.updateByPrimaryKeySelective(employee);
     }
     

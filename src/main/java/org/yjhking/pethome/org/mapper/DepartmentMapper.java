@@ -17,7 +17,7 @@ public interface DepartmentMapper {
      * @param id 主键
      * @return 删除的id
      */
-    int deleteByPrimaryKey(Long id);
+    Long deleteByPrimaryKey(Long id);
     
     /**
      * 增加数据
@@ -25,7 +25,7 @@ public interface DepartmentMapper {
      * @param department 部门
      * @return 增加的id
      */
-    int insertSelective(Department department);
+    Long insertSelective(Department department);
     
     /**
      * 通过主键查询
@@ -41,7 +41,7 @@ public interface DepartmentMapper {
      * @param department 更新的数据
      * @return 更新的id
      */
-    int updateByPrimaryKeySelective(Department department);
+    Long updateByPrimaryKeySelective(Department department);
     
     /**
      * 查询全部

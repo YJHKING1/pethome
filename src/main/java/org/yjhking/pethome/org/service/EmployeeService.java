@@ -18,7 +18,7 @@ public interface EmployeeService {
      * @param id 主键
      * @return 删除的id
      */
-    int deleteByPrimaryKey(Long id);
+    Long deleteByPrimaryKey(Long id);
     
     /**
      * 新增
@@ -26,7 +26,7 @@ public interface EmployeeService {
      * @param employee 新增的数据
      * @return 新增的id
      */
-    int insertSelective(Employee employee);
+    Long insertSelective(Employee employee);
     
     /**
      * 通过主键查询
@@ -42,7 +42,7 @@ public interface EmployeeService {
      * @param employee 更新的数据
      * @return 更新的id
      */
-    int updateByPrimaryKeySelective(Employee employee);
+    Long updateByPrimaryKeySelective(Employee employee);
     
     /**
      * 查询全部

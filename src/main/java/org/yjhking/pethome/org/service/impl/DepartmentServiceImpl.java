@@ -25,13 +25,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     
     @Transactional
     @Override
-    public int deleteByPrimaryKey(Long id) {
+    public Long deleteByPrimaryKey(Long id) {
         return departmentMapper.deleteByPrimaryKey(id);
     }
     
     @Transactional
     @Override
-    public int insertSelective(Department department) {
+    public Long insertSelective(Department department) {
         return departmentMapper.insertSelective(department);
     }
     
@@ -42,7 +42,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     
     @Transactional
     @Override
-    public int updateByPrimaryKeySelective(Department department) {
+    public Long updateByPrimaryKeySelective(Department department) {
         return departmentMapper.updateByPrimaryKeySelective(department);
     }
     
