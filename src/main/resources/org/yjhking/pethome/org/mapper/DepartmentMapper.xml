@@ -127,6 +127,7 @@
         from t_department d
         left join t_employee e on d.manager_id = e.id
         left join t_department p on d.parent_id = p.id
+        group by d.id
         limit #{begin},#{pageSize}
     </select>
 </mapper>
