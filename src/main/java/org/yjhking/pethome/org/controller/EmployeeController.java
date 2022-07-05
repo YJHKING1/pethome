@@ -3,10 +3,10 @@ package org.yjhking.pethome.org.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.yjhking.pethome.basic.util.PageList;
-import org.yjhking.pethome.org.domain.Department;
+import org.yjhking.pethome.org.domain.Employee;
 import org.yjhking.pethome.org.query.AjaxResult;
-import org.yjhking.pethome.org.query.DepartmentQuery;
-import org.yjhking.pethome.org.service.DepartmentService;
+import org.yjhking.pethome.org.query.EmployeeQuery;
+import org.yjhking.pethome.org.service.EmployeeService;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ import java.util.List;
  * @author YJH
  */
 @RestController
-@RequestMapping("/department")
-public class DepartmentController {
+@RequestMapping("/employee")
+public class EmployeeController {
     @Autowired
-    private DepartmentService departmentService;
+    private EmployeeService employeeService;
     
     /**
      * 查询全部
@@ -25,8 +25,8 @@ public class DepartmentController {
      * @return 查询结果
      */
     @GetMapping
-    public List<Department> findAll() {
-        return departmentService.selectAll();
+    public List<Employee> findAll() {
+        return employeeService.selectAll();
     }
     
     /**
@@ -36,8 +36,8 @@ public class DepartmentController {
      * @return 查询结果
      */
     @GetMapping("/{id}")
-    public Department findById(@PathVariable Long id) {
-        return departmentService.selectByPrimaryKey(id);
+    public Employee findById(@PathVariable Long id) {
+        return employeeService.selectByPrimaryKey(id);
     }
     
     /**
@@ -50,7 +50,7 @@ public class DepartmentController {
     public AjaxResult deleteById(@PathVariable Long id) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            departmentService.deleteByPrimaryKey(id);
+            employeeService.deleteByPrimaryKey(id);
         } catch (Exception e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);
@@ -62,52 +62,63 @@ public class DepartmentController {
     /**
      * 修改
      *
-     * @param department 修改内容
-     * @param id         修改id
+     * @param employee 修改内容
+     * @param id       修改id
      * @return 返回信息
      */
-    @PutMapping("/{id}")
-    public AjaxResult editById(@RequestBody Department department, @PathVariable Long id) {
-        department.setId(id);
+    /*@PutMapping("/{id}")
+    public AjaxResult editById(@RequestBody Employee employee, @PathVariable Long id) {
+        employee.setId(id);
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            departmentService.updateByPrimaryKeySelective(department);
+            employeeService.updateByPrimaryKeySelective(employee);
         } catch (Exception e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);
             ajaxResult.setMsg("修改失败");
         }
         return ajaxResult;
-    }
+    }*/
     
     /**
      * 增加
      *
-     * @param department 增加内容
+     * @param employee 增加内容
      * @return 返回信息
      */
     @PutMapping
-    public AjaxResult add(@RequestBody Department department) {
+    public AjaxResult add(@RequestBody Employee employee) {
         AjaxResult ajaxResult = new AjaxResult();
-        try {
-            departmentService.insertSelective(department);
-        } catch (Exception e) {
-            e.printStackTrace();
-            ajaxResult.setSuccess(false);
-            ajaxResult.setMsg("新增失败");
+        if (employee.getId() == null) {
+            try {
+                employeeService.insertSelective(employee);
+            } catch (Exception e) {
+                e.printStackTrace();
+                ajaxResult.setSuccess(false);
+                ajaxResult.setMsg("新增失败");
+            }
+        } else {
+            try {
+                employeeService.updateByPrimaryKeySelective(employee);
+            } catch (Exception e) {
+                e.printStackTrace();
+                ajaxResult.setSuccess(false);
+                ajaxResult.setMsg("修改失败");
+            }
         }
+        
         return ajaxResult;
     }
     
     /**
      * 高级分页查询
      *
-     * @param departmentQuery 高级分页查询参数
+     * @param employeeQuery 高级分页查询参数
      * @return 查询结果
      */
     @PostMapping
-    public PageList<Department> queryPage(@RequestBody DepartmentQuery departmentQuery) {
-        return departmentService.queryData(departmentQuery);
+    public PageList<Employee> queryPage(@RequestBody EmployeeQuery employeeQuery) {
+        return employeeService.queryData(employeeQuery);
     }
     
     /**
@@ -120,7 +131,7 @@ public class DepartmentController {
     public AjaxResult patchDelete(@RequestBody List<Long> ids) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            departmentService.patchDelete(ids);
+            employeeService.patchDelete(ids);
         } catch (Exception e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);
@@ -134,8 +145,8 @@ public class DepartmentController {
      *
      * @return 部门树集合
      */
-    @GetMapping("/deptTree")
-    public List<Department> deptTree() {
-        return departmentService.deptTree();
-    }
+    /*@GetMapping("/deptTree")
+    public List<Employee> deptTree() {
+        return employeeService.deptTree();
+    }*/
 }

@@ -65,4 +65,6 @@ public interface EmployeeMapper {
      * @return 查询结果
      */
     List<Employee> queryData(EmployeeQuery employeeQuery);
+    
+    void patchDelete(List<Long> ids);
 }

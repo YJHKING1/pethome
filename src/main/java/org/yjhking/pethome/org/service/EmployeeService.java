@@ -7,7 +7,7 @@ import org.yjhking.pethome.org.query.EmployeeQuery;
 import java.util.List;
 
 /**
- * 员工业务层接口
+ * 部门业务层接口
  *
  * @author YJH
  */
@@ -21,17 +21,17 @@ public interface EmployeeService {
     Long deleteByPrimaryKey(Long id);
     
     /**
-     * 新增
+     * 增加数据
      *
-     * @param employee 新增的数据
-     * @return 新增的id
+     * @param employee 部门
+     * @return 增加的id
      */
     Long insertSelective(Employee employee);
     
     /**
      * 通过主键查询
      *
-     * @param id 要查询的id
+     * @param id 主键
      * @return 查询结果
      */
     Employee selectByPrimaryKey(Long id);
@@ -55,7 +55,21 @@ public interface EmployeeService {
      * 分页查询
      *
      * @param employeeQuery 当前页和每页条数
-     * @return 查询结果
+     * @return 部门集合
      */
     PageList<Employee> queryData(EmployeeQuery employeeQuery);
+    
+    /**
+     * 批量删除
+     *
+     * @param ids 删除的id集合
+     */
+    void patchDelete(List<Long> ids);
+    
+    /**
+     * 部门树
+     *
+     * @return 部门树集合
+     */
+    /*List<Employee> deptTree();*/
 }

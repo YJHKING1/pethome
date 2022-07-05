@@ -19,6 +19,11 @@ public class BaseQuery {
     private Integer pageSize = 5;
     
     /**
+     * 关键字
+     */
+    private String keyword;
+    
+    /**
      * 获取当前页的起始下标
      *
      * @return 当前页的起始下标

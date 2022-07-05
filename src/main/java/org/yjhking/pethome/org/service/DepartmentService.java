@@ -58,4 +58,18 @@ public interface DepartmentService {
      * @return 部门集合
      */
     PageList<Department> queryData(DepartmentQuery departmentQuery);
+    
+    /**
+     * 批量删除
+     *
+     * @param ids 删除的id集合
+     */
+    void patchDelete(List<Long> ids);
+    
+    /**
+     * 部门树
+     *
+     * @return 部门树集合
+     */
+    List<Department> deptTree();
 }

@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.yjhking.pethome.org.mapper.EmployeeMapper">
     <resultMap id="BaseResultMap" type="org.yjhking.pethome.org.domain.Employee">
-        <!--@Table t_employee-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
@@ -35,7 +34,8 @@
         where id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from t_employee
+        delete
+        from t_employee
         where id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="org.yjhking.pethome.org.domain.Employee"
@@ -149,11 +149,47 @@
     </select>
     <select id="queryCount" resultType="java.lang.Long">
         select count(*)
+        from t_employee e
+        <include refid="querySql"/>
+    </select>
+    <select id="queryData" resultMap="EmployeeMap">
+        select *
+        from t_employee e
+        left join t_department d on e.department_id = d.id
+        <include refid="querySql"/>
+        order by e.id
+        limit #{begin},#{pageSize}
+    </select>
+    <resultMap id="EmployeeMap" type="Employee">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="age" jdbcType="INTEGER" property="age"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="department_id" jdbcType="BIGINT" property="departmentId"/>
+        <result column="logininfo_id" jdbcType="BIGINT" property="logininfoId"/>
+        <result column="shop_id" jdbcType="BIGINT" property="shopId"/>
+        <association property="department" javaType="org.yjhking.pethome.org.domain.Department">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+    <sql id="querySql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                username like concat("%", #{keyword}, "%")
+            </if>
+        </where>
+    </sql>
+    <delete id="patchDelete">
+        delete
         from t_employee
-    </select>
-    <select id="queryData" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from t_employee limit #{begin},#{pageSize}
-    </select>
+        where id in
+        <foreach collection="list" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

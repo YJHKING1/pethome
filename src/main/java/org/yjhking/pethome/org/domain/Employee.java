@@ -26,6 +26,10 @@ public class Employee {
     private Integer state;
     
     private Long departmentId;
+    /**
+     * 部门
+     */
+    private Department department;
     
     private Long logininfoId;
     

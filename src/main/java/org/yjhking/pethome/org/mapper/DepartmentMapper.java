@@ -65,4 +65,6 @@ public interface DepartmentMapper {
      * @return 查询结果
      */
     List<Department> queryData(DepartmentQuery departmentQuery);
+    
+    void patchDelete(List<Long> ids);
 }

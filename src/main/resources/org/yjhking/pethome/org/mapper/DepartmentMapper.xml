@@ -103,9 +103,18 @@
         <include refid="Base_Column_List"/>
         from t_department
     </select>
+    <sql id="querySql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and d.sn like concat("%", ${keyword}, "%")
+                or d.name like concat("%", ${keyword}, "%")
+            </if>
+        </where>
+    </sql>
     <select id="queryCount" resultType="java.lang.Long">
         select count(*)
-        from t_department
+        from t_department d
+        <include refid="querySql"/>
     </select>
     <resultMap id="DepartmentMap" type="Department">
         <id property="id" column="id"/>
@@ -113,6 +122,8 @@
         <result property="name" column="name"/>
         <result property="dirPath" column="dirPath"/>
         <result property="state" column="state"/>
+        <result property="managerId" column="manager_id"/>
+        <result property="parentId" column="parent_id"/>
         <association property="manager" javaType="org.yjhking.pethome.org.domain.Employee">
             <id property="id" column="eid"/>
             <result property="username" column="username"/>
@@ -127,7 +138,16 @@
         from t_department d
         left join t_employee e on d.manager_id = e.id
         left join t_department p on d.parent_id = p.id
-        group by d.id
+        <include refid="querySql"/>
+        order by d.id
         limit #{begin},#{pageSize}
     </select>
+    <delete id="patchDelete">
+        delete
+        from t_department
+        where id in
+        <foreach collection="list" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>
