@@ -2,6 +2,7 @@ package org.yjhking.pethome.org.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import org.yjhking.pethome.basic.domain.BaseDomain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +13,7 @@ import java.util.List;
  * @author YJH
  */
 @Data
-public class Department {
-    private Long id;
-    
+public class Department extends BaseDomain {
     private String sn;
     
     private String name;

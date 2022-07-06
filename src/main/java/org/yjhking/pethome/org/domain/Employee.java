@@ -1,6 +1,7 @@
 package org.yjhking.pethome.org.domain;
 
 import lombok.Data;
+import org.yjhking.pethome.basic.domain.BaseDomain;
 
 /**
  * 员工
@@ -8,9 +9,7 @@ import lombok.Data;
  * @author YJH
  */
 @Data
-public class Employee {
-    private Long id;
-    
+public class Employee extends BaseDomain {
     private String username;
     
     private String phone;

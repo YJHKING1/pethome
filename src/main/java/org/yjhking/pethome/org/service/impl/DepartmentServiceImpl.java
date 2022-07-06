@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.yjhking.pethome.basic.util.PageList;
+import org.yjhking.pethome.basic.service.impl.BaseServiceImpl;
 import org.yjhking.pethome.org.domain.Department;
 import org.yjhking.pethome.org.mapper.DepartmentMapper;
-import org.yjhking.pethome.org.query.DepartmentQuery;
 import org.yjhking.pethome.org.service.DepartmentService;
 
 import java.util.ArrayList;
@@ -22,19 +21,13 @@ import java.util.Map;
  */
 @Service
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-public class DepartmentServiceImpl implements DepartmentService {
+public class DepartmentServiceImpl extends BaseServiceImpl<Department> implements DepartmentService {
     @Autowired
     private DepartmentMapper departmentMapper;
     
     @Transactional
     @Override
-    public Long deleteByPrimaryKey(Long id) {
-        return departmentMapper.deleteByPrimaryKey(id);
-    }
-    
-    @Transactional
-    @Override
-    public Long insertSelective(Department department) {
+    public Integer insertSelective(Department department) {
         // 新增到数据库
         departmentMapper.insertSelective(department);
         // 获得新增的id
@@ -51,19 +44,12 @@ public class DepartmentServiceImpl implements DepartmentService {
             department.setDirPath(parentDirPath + "/" + id);
         }
         // 更新到数据库
-        departmentMapper.updateByPrimaryKeySelective(department);
-        // 返回新增的id
-        return id;
-    }
-    
-    @Override
-    public Department selectByPrimaryKey(Long id) {
-        return departmentMapper.selectByPrimaryKey(id);
+        return departmentMapper.updateByPrimaryKeySelective(department);
     }
     
     @Transactional
     @Override
-    public Long updateByPrimaryKeySelective(Department department) {
+    public Integer updateByPrimaryKeySelective(Department department) {
         // 获得父id
         Long parentId = department.getParentId();
         // 如果此部门为最上级则直接拼接自己的id路径
@@ -72,7 +58,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         } else {
             // 否则，先获得父路径
             String parentDirPath = departmentMapper.selectByPrimaryKey(parentId).getDirPath();
-            if (parentDirPath.indexOf(department.getId().toString()) != -1) {
+            if (parentDirPath.contains(department.getId().toString())) {
                 throw new RuntimeException("上级部门不可是自己");
             }
             // 再拼接父路径加自己的id
@@ -80,29 +66,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         // 更新到数据库
         return departmentMapper.updateByPrimaryKeySelective(department);
-    }
-    
-    @Override
-    public List<Department> selectAll() {
-        return departmentMapper.selectAll();
-    }
-    
-    @Override
-    public PageList<Department> queryData(DepartmentQuery departmentQuery) {
-        // 查询总条数
-        Long queryCount = departmentMapper.queryCount(departmentQuery);
-        // 如果查询总条数为0，则直接返回空集合
-        if (queryCount < 1) {
-            return new PageList<Department>();
-        }
-        // 查询结果
-        List<Department> departments = departmentMapper.queryData(departmentQuery);
-        return new PageList<Department>(queryCount, departments);
-    }
-    
-    @Override
-    public void patchDelete(List<Long> ids) {
-        departmentMapper.patchDelete(ids);
     }
     
     @Override
