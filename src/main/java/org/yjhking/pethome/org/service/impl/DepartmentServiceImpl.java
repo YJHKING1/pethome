@@ -2,7 +2,6 @@ package org.yjhking.pethome.org.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.yjhking.pethome.basic.service.impl.BaseServiceImpl;
 import org.yjhking.pethome.org.domain.Department;
@@ -20,7 +19,6 @@ import java.util.Map;
  * @author YJH
  */
 @Service
-@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 public class DepartmentServiceImpl extends BaseServiceImpl<Department> implements DepartmentService {
     @Autowired
     private DepartmentMapper departmentMapper;
