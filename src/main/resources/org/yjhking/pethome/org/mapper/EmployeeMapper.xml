@@ -153,9 +153,10 @@
         <include refid="querySql"/>
     </select>
     <select id="queryData" resultMap="EmployeeMap">
-        select *
+        select e.*,d.id did,d.name dname, s.id sid, s.name sname
         from t_employee e
         left join t_department d on e.department_id = d.id
+        left join t_shop s on s.admin_id = e.id
         <include refid="querySql"/>
         order by e.id
         limit #{begin},#{pageSize}
@@ -173,14 +174,18 @@
         <result column="logininfo_id" jdbcType="BIGINT" property="logininfoId"/>
         <result column="shop_id" jdbcType="BIGINT" property="shopId"/>
         <association property="department" javaType="org.yjhking.pethome.org.domain.Department">
-            <id property="id" column="id"/>
-            <result property="name" column="name"/>
+            <id property="id" column="did"/>
+            <result property="name" column="dname"/>
+        </association>
+        <association property="shop" javaType="org.yjhking.pethome.org.domain.Shop">
+            <id property="id" column="sid"/>
+            <result property="name" column="sname"/>
         </association>
     </resultMap>
     <sql id="querySql">
         <where>
             <if test="keyword != null and keyword != ''">
-                username like concat("%", #{keyword}, "%")
+                and username like concat('%', #{keyword}, '%')
             </if>
         </where>
     </sql>

@@ -3,10 +3,10 @@ package org.yjhking.pethome.org.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.yjhking.pethome.basic.util.PageList;
-import org.yjhking.pethome.org.domain.Employee;
+import org.yjhking.pethome.org.domain.Shop;
 import org.yjhking.pethome.org.query.AjaxResult;
-import org.yjhking.pethome.org.query.EmployeeQuery;
-import org.yjhking.pethome.org.service.EmployeeService;
+import org.yjhking.pethome.org.query.ShopQuery;
+import org.yjhking.pethome.org.service.ShopService;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ import java.util.List;
  * @author YJH
  */
 @RestController
-@RequestMapping("/employee")
-public class EmployeeController {
+@RequestMapping("/shop")
+public class ShopController {
     @Autowired
-    private EmployeeService employeeService;
+    private ShopService shopService;
     
     /**
      * 查询全部
@@ -25,8 +25,8 @@ public class EmployeeController {
      * @return 查询结果
      */
     @GetMapping
-    public List<Employee> findAll() {
-        return employeeService.selectAll();
+    public List<Shop> findAll() {
+        return shopService.selectAll();
     }
     
     /**
@@ -36,8 +36,8 @@ public class EmployeeController {
      * @return 查询结果
      */
     @GetMapping("/{id}")
-    public Employee findById(@PathVariable Long id) {
-        return employeeService.selectByPrimaryKey(id);
+    public Shop findById(@PathVariable Long id) {
+        return shopService.selectByPrimaryKey(id);
     }
     
     /**
@@ -50,7 +50,7 @@ public class EmployeeController {
     public AjaxResult deleteById(@PathVariable Long id) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            employeeService.deleteByPrimaryKey(id);
+            shopService.deleteByPrimaryKey(id);
         } catch (Exception e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);
@@ -62,15 +62,15 @@ public class EmployeeController {
     /**
      * 增加及修改
      *
-     * @param employee 增加或修改内容
+     * @param shop 增加或修改内容
      * @return 返回信息
      */
     @PutMapping
-    public AjaxResult add(@RequestBody Employee employee) {
+    public AjaxResult add(@RequestBody Shop shop) {
         AjaxResult ajaxResult = new AjaxResult();
-        if (employee.getId() == null) {
+        if (shop.getId() == null) {
             try {
-                employeeService.insertSelective(employee);
+                shopService.insertSelective(shop);
             } catch (Exception e) {
                 e.printStackTrace();
                 ajaxResult.setSuccess(false);
@@ -78,7 +78,7 @@ public class EmployeeController {
             }
         } else {
             try {
-                employeeService.updateByPrimaryKeySelective(employee);
+                shopService.updateByPrimaryKeySelective(shop);
             } catch (Exception e) {
                 e.printStackTrace();
                 ajaxResult.setSuccess(false);
@@ -92,12 +92,12 @@ public class EmployeeController {
     /**
      * 高级分页查询
      *
-     * @param employeeQuery 高级分页查询参数
+     * @param shopQuery 高级分页查询参数
      * @return 查询结果
      */
     @PostMapping
-    public PageList<Employee> queryPage(@RequestBody EmployeeQuery employeeQuery) {
-        return employeeService.queryData(employeeQuery);
+    public PageList<Shop> queryPage(@RequestBody ShopQuery shopQuery) {
+        return shopService.queryData(shopQuery);
     }
     
     /**
@@ -110,7 +110,7 @@ public class EmployeeController {
     public AjaxResult patchDelete(@RequestBody List<Long> ids) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            employeeService.patchDelete(ids);
+            shopService.patchDelete(ids);
         } catch (Exception e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);

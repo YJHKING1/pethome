@@ -106,8 +106,8 @@
     <sql id="querySql">
         <where>
             <if test="keyword != null and keyword != ''">
-                and d.sn like concat("%", ${keyword}, "%")
-                or d.name like concat("%", ${keyword}, "%")
+                and d.sn like concat('%', #{keyword}, '%')
+                or d.name like concat('%', #{keyword}, '%')
             </if>
         </where>
     </sql>

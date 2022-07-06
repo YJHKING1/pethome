@@ -33,4 +33,8 @@ public class Employee extends BaseDomain {
     private Long logininfoId;
     
     private Long shopId;
+    /**
+     * 店铺
+     */
+    private Shop shop;
 }

@@ -29,7 +29,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
     @Transactional
     @Override
     public Integer insertSelective(T t) {
-        return baseMapper.updateByPrimaryKeySelective(t);
+        return baseMapper.insertSelective(t);
     }
     
     @Override
