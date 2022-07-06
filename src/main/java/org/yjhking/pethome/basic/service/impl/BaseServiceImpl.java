@@ -63,6 +63,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
         return new PageList<T>(queryCount, list);
     }
     
+    @Transactional
     @Override
     public void patchDelete(List<Long> ids) {
         baseMapper.patchDelete(ids);
