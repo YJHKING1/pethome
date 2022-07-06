@@ -11,6 +11,8 @@ import org.yjhking.pethome.org.domain.Employee;
 import org.yjhking.pethome.org.query.EmployeeQuery;
 import org.yjhking.pethome.org.service.EmployeeService;
 
+import java.util.List;
+
 /**
  * @author YJH
  */
@@ -22,7 +24,8 @@ public class TestEmployee {
     
     @Test
     public void testSelectAll() {
-        employeeService.selectAll();
+        List<Employee> employees = employeeService.selectAll();
+        employees.forEach(System.out::println);
     }
     
     @Test
