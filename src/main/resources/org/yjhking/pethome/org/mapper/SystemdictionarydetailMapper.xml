@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yjhking.pethome.org.mapper.SystemdictionarydetailMapper">
+    <resultMap id="BaseResultMap" type="org.yjhking.pethome.org.domain.Systemdictionarydetail">
+        <!--@Table t_systemdictionarydetail-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="types_id" jdbcType="BIGINT" property="typesId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        `name`,
+        types_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_systemdictionarydetail
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_systemdictionarydetail
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="org.yjhking.pethome.org.domain.Systemdictionarydetail" useGeneratedKeys="true">
+        insert into t_systemdictionarydetail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="typesId != null">
+                types_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="typesId != null">
+                #{typesId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.yjhking.pethome.org.domain.Systemdictionarydetail">
+        update t_systemdictionarydetail
+        <set>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="typesId != null">
+                types_id = #{typesId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_systemdictionarydetail
+    </select>
+    <select id="queryCount" resultType="java.lang.Long">
+        select count(*)
+        from t_systemdictionarydetail d
+        left join t_systemdictionarytype t on d.types_id = t.id
+        <include refid="querySql"/>
+    </select>
+    <sql id="querySql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and d.name like concat('%', #{keyword}, '%')
+                or d.types_id like concat('%', #{keyword}, '%')
+                or t.name like concat('%', #{keyword}, '%')
+                or d.id like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+    </sql>
+    <select id="queryData" resultMap="DTMap">
+        select d.*, t.id tid, t.name tname
+        from t_systemdictionarydetail d
+        left join t_systemdictionarytype t on d.types_id = t.id
+        <include refid="querySql"/>
+        order by d.id
+        limit #{begin},#{pageSize}
+    </select>
+    <resultMap id="DTMap" type="Systemdictionarydetail">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="types_id" jdbcType="BIGINT" property="typesId"/>
+        <association property="systemdictionarytype" javaType="org.yjhking.pethome.org.domain.Systemdictionarytype">
+            <id column="tid" property="id"/>
+            <result column="tname" property="name"/>
+        </association>
+    </resultMap>
+    <delete id="patchDelete">
+        delete
+        from t_systemdictionarydetail
+        where id in
+        <foreach collection="list" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

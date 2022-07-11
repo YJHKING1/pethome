@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yjhking.pethome.org.mapper.SystemdictionarytypeMapper">
+    <resultMap id="BaseResultMap" type="org.yjhking.pethome.org.domain.Systemdictionarytype">
+        <!--@Table t_systemdictionarytype-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="sn" jdbcType="VARCHAR" property="sn"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        sn,
+        `name`
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_systemdictionarytype
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_systemdictionarytype
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="org.yjhking.pethome.org.domain.Systemdictionarytype" useGeneratedKeys="true">
+        insert into t_systemdictionarytype
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sn != null">
+                sn,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sn != null">
+                #{sn,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.yjhking.pethome.org.domain.Systemdictionarytype">
+        update t_systemdictionarytype
+        <set>
+            <if test="sn != null">
+                sn = #{sn,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_systemdictionarytype
+    </select>
+    <select id="queryCount" resultType="java.lang.Long">
+        select count(*)
+        from t_systemdictionarytype
+        <include refid="querySql"/>
+    </select>
+    <sql id="querySql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and name like concat('%', #{keyword}, '%')
+                or sn like concat('%', #{keyword}, '%')
+                or id like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+    </sql>
+    <select id="queryData" resultMap="SDType">
+        select *
+        from t_systemdictionarytype
+        <include refid="querySql"/>
+        order by id
+        limit #{begin},#{pageSize}
+    </select>
+    <resultMap id="SDType" type="Systemdictionarytype">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="sn" jdbcType="VARCHAR" property="sn"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+    <delete id="patchDelete">
+        delete
+        from t_systemdictionarytype
+        where id in
+        <foreach collection="list" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
