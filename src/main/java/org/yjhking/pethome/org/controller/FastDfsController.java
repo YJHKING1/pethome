@@ -19,9 +19,13 @@ public class FastDfsController {
     public AjaxResult upload(@RequestPart(required = true, value = "file") MultipartFile file) {
         AjaxResult result = AjaxResult.me();
         try {
+            // 拿到文件名
             String originalFilename = file.getOriginalFilename();
+            // 拿到文件扩展名
             String substring = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+            // 拿到文件上传路径
             String upload = FastDfsUtils.upload(file.getBytes(), substring);
+            // 返回上传路径
             result.setResultObj(upload);
             return result;
         } catch (IOException e) {
