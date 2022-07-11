@@ -1,4 +1,4 @@
-package org.yjhking.pethome.org.query;
+package org.yjhking.pethome.user.query;
 
 import lombok.Data;
 import org.yjhking.pethome.basic.query.BaseQuery;

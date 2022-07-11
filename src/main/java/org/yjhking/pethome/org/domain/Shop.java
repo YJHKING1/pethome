@@ -14,11 +14,15 @@ public class Shop extends BaseDomain {
     private String name;
     
     private String tel;
-    
+    /**
+     * 店铺入驻时间默认值，新增店铺时设置
+     */
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date registerTime;
-    
-    private Integer state;
+    private Date registerTime = new Date();
+    /**
+     * 店铺状态：1待审核，2审核通过待激活，3激活成功，4驳回
+     */
+    private Integer state = 1;
     
     private String address;
     

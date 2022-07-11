@@ -1,8 +1,9 @@
-package org.yjhking.pethome.org.service;
+package org.yjhking.pethome.user.service;
 
 import org.yjhking.pethome.basic.service.BaseService;
-import org.yjhking.pethome.org.domain.Logininfo;
-    /**
+import org.yjhking.pethome.user.domain.Logininfo;
+
+/**
  * @author YJH
  */
 public interface LogininfoService extends BaseService<Logininfo> {

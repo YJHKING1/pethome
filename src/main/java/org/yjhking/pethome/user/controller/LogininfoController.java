@@ -1,18 +1,18 @@
-package org.yjhking.pethome.org.controller;
+package org.yjhking.pethome.user.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.yjhking.pethome.basic.util.PageList;
-import org.yjhking.pethome.org.domain.Logininfo;
-import org.yjhking.pethome.org.query.AjaxResult;
-import org.yjhking.pethome.org.query.LogininfoQuery;
-import org.yjhking.pethome.org.service.LogininfoService;
 import org.springframework.web.bind.annotation.*;
+import org.yjhking.pethome.basic.util.PageList;
+import org.yjhking.pethome.user.domain.Logininfo;
+import org.yjhking.pethome.org.query.AjaxResult;
+import org.yjhking.pethome.user.query.LogininfoQuery;
+import org.yjhking.pethome.user.service.LogininfoService;
 
 import java.util.List;
 
 /**
-*
-* @author YJH
-*/
+ * @author YJH
+ */
 @RestController
 @RequestMapping("/logininfo")
 public class LogininfoController {

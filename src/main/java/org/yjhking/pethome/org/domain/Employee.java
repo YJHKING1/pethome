@@ -19,6 +19,10 @@ public class Employee extends BaseDomain {
     private String salt;
     
     private String password;
+    /**
+     * 验证密码
+     */
+    private String comfirmPassword;
     
     private Integer age;
     

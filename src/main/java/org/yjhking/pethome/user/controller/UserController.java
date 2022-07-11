@@ -1,24 +1,25 @@
-package org.yjhking.pethome.org.controller;
+package org.yjhking.pethome.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
 import org.yjhking.pethome.basic.util.PageList;
-import org.yjhking.pethome.org.domain.Shop;
+import org.yjhking.pethome.user.domain.User;
 import org.yjhking.pethome.org.query.AjaxResult;
-import org.yjhking.pethome.org.query.ShopQuery;
-import org.yjhking.pethome.org.service.ShopService;
+import org.yjhking.pethome.user.query.UserQuery;
+import org.yjhking.pethome.user.service.UserService;
 
 import java.util.List;
 
 /**
- * @author YJH
+ * (t_user)表控制层
+ *
+ * @author xxxxx
  */
 @RestController
-@RequestMapping("/shop")
-public class ShopController {
+@RequestMapping("/user")
+public class UserController {
     @Autowired
-    private ShopService shopService;
+    private UserService userService;
     
     /**
      * 查询全部
@@ -26,8 +27,8 @@ public class ShopController {
      * @return 查询结果
      */
     @GetMapping
-    public List<Shop> findAll() {
-        return shopService.selectAll();
+    public List<User> findAll() {
+        return userService.selectAll();
     }
     
     /**
@@ -37,8 +38,8 @@ public class ShopController {
      * @return 查询结果
      */
     @GetMapping("/{id}")
-    public Shop findById(@PathVariable Long id) {
-        return shopService.selectByPrimaryKey(id);
+    public User findById(@PathVariable Long id) {
+        return userService.selectByPrimaryKey(id);
     }
     
     /**
@@ -51,7 +52,7 @@ public class ShopController {
     public AjaxResult deleteById(@PathVariable Long id) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            shopService.deleteByPrimaryKey(id);
+            userService.deleteByPrimaryKey(id);
         } catch (Exception e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);
@@ -63,15 +64,15 @@ public class ShopController {
     /**
      * 增加及修改
      *
-     * @param shop 增加或修改内容
+     * @param user 增加或修改内容
      * @return 返回信息
      */
     @PutMapping
-    public AjaxResult add(@RequestBody Shop shop) {
+    public AjaxResult add(@RequestBody User user) {
         AjaxResult ajaxResult = new AjaxResult();
-        if (shop.getId() == null) {
+        if (user.getId() == null) {
             try {
-                shopService.insertSelective(shop);
+                userService.insertSelective(user);
             } catch (Exception e) {
                 e.printStackTrace();
                 ajaxResult.setSuccess(false);
@@ -79,7 +80,7 @@ public class ShopController {
             }
         } else {
             try {
-                shopService.updateByPrimaryKeySelective(shop);
+                userService.updateByPrimaryKeySelective(user);
             } catch (Exception e) {
                 e.printStackTrace();
                 ajaxResult.setSuccess(false);
@@ -93,12 +94,12 @@ public class ShopController {
     /**
      * 高级分页查询
      *
-     * @param shopQuery 高级分页查询参数
+     * @param userQuery 高级分页查询参数
      * @return 查询结果
      */
     @PostMapping
-    public PageList<Shop> queryPage(@RequestBody ShopQuery shopQuery) {
-        return shopService.queryData(shopQuery);
+    public PageList<User> queryPage(@RequestBody UserQuery userQuery) {
+        return userService.queryData(userQuery);
     }
     
     /**
@@ -111,34 +112,11 @@ public class ShopController {
     public AjaxResult patchDelete(@RequestBody List<Long> ids) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            shopService.patchDelete(ids);
+            userService.patchDelete(ids);
         } catch (Exception e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);
             ajaxResult.setMsg("批量删除失败");
-        }
-        return ajaxResult;
-    }
-    
-    /**
-     * 店铺入驻
-     *
-     * @param shop 店铺信息
-     * @return 返回信息
-     */
-    @PostMapping("/settlement")
-    public AjaxResult settlement(@RequestBody Shop shop) {
-        AjaxResult ajaxResult = new AjaxResult();
-        try {
-            shopService.settlement(shop);
-        } catch (BusinessRuntimeException e) {
-            e.printStackTrace();
-            ajaxResult.setSuccess(false);
-            ajaxResult.setMsg(e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            ajaxResult.setSuccess(false);
-            ajaxResult.setMsg("系统错误");
         }
         return ajaxResult;
     }

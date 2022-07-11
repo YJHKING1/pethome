@@ -2,6 +2,7 @@ package org.yjhking.pethome.org.domain;
 
 import lombok.Data;
 import org.yjhking.pethome.basic.domain.BaseDomain;
+
 /**
  * @author YJH
  */
