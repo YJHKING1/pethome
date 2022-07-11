@@ -10,7 +10,9 @@ import org.yjhking.pethome.org.mapper.SystemdictionarytypeMapper;
 import org.yjhking.pethome.org.service.SystemdictionarytypeService;
 
 import java.util.List;
-
+/**
+ * @author YJH
+ */
 @Service
 public class SystemdictionarytypeServiceImpl extends BaseServiceImpl<Systemdictionarytype> implements SystemdictionarytypeService {
     @Autowired
