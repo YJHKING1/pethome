@@ -3,12 +3,15 @@ package org.yjhking.pethome.org.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
+import org.yjhking.pethome.basic.util.ExcelUtils;
 import org.yjhking.pethome.basic.util.PageList;
 import org.yjhking.pethome.org.domain.Shop;
+import org.yjhking.pethome.org.domain.ShopAuditLog;
 import org.yjhking.pethome.org.query.AjaxResult;
 import org.yjhking.pethome.org.query.ShopQuery;
 import org.yjhking.pethome.org.service.ShopService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -141,5 +144,71 @@ public class ShopController {
             ajaxResult.setMsg("系统错误");
         }
         return ajaxResult;
+    }
+    
+    /**
+     * 店铺审核通过
+     *
+     * @param log 店铺审核信息
+     * @return 返回信息
+     */
+    @PostMapping("/audit/pass")
+    public AjaxResult pass(@RequestBody ShopAuditLog log) {
+        try {
+            shopService.pass(log);
+            return new AjaxResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new AjaxResult(false, "审核失败");
+        }
+    }
+    
+    /**
+     * 店铺审核驳回
+     *
+     * @param log 店铺审核信息
+     * @return 返回信息
+     */
+    @PostMapping("/audit/reject")
+    public AjaxResult reject(@RequestBody ShopAuditLog log) {
+        try {
+            shopService.reject(log);
+            return new AjaxResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new AjaxResult(false, "驳回失败");
+        }
+    }
+    
+    /**
+     * 店铺激活
+     *
+     * @param id 要激活的店铺id
+     * @return 返回信息
+     */
+    @GetMapping("/active/{id}")
+    public AjaxResult active(@PathVariable Long id) {
+        try {
+            shopService.active(id);
+            return new AjaxResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new AjaxResult(false, "激活失败");
+        }
+    }
+    
+    /**
+     * 导出数据
+     *
+     * @param response 响应对象
+     */
+    @GetMapping("/export")
+    public void export(HttpServletResponse response) {
+        try {
+            List<Shop> shops = shopService.selectAll();
+            ExcelUtils.exportExcel(shops, null, "店铺信息", Shop.class, "shop.xls", response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
