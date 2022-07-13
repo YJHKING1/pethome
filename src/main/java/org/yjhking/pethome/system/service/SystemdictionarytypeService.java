@@ -1,7 +1,7 @@
-package org.yjhking.pethome.org.service;
+package org.yjhking.pethome.system.service;
 
 import org.yjhking.pethome.basic.service.BaseService;
-import org.yjhking.pethome.org.domain.Systemdictionarytype;
+import org.yjhking.pethome.system.domain.Systemdictionarytype;
 
 /**
  * @author YJH

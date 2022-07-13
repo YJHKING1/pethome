@@ -2,11 +2,13 @@ package org.yjhking.pethome.org.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
 import org.yjhking.pethome.basic.util.ExcelUtils;
 import org.yjhking.pethome.basic.util.PageList;
 import org.yjhking.pethome.org.domain.Shop;
 import org.yjhking.pethome.org.domain.ShopAuditLog;
+import org.yjhking.pethome.org.dto.ShopDto;
 import org.yjhking.pethome.org.query.AjaxResult;
 import org.yjhking.pethome.org.query.ShopQuery;
 import org.yjhking.pethome.org.service.ShopService;
@@ -187,9 +189,10 @@ public class ShopController {
      * @return 返回信息
      */
     @GetMapping("/active/{id}")
-    public AjaxResult active(@PathVariable Long id) {
+    public AjaxResult active(@PathVariable Long id, HttpServletResponse response) {
         try {
             shopService.active(id);
+            response.sendRedirect("http://localhost:8081/#/activation");
             return new AjaxResult();
         } catch (Exception e) {
             e.printStackTrace();
@@ -210,5 +213,32 @@ public class ShopController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * 导入数据
+     *
+     * @param file 导入的文件
+     */
+    @PostMapping("/importExcel")
+    public void importExcel(@RequestPart("file") MultipartFile file) {
+        try {
+            // 导入数据
+            List<Shop> shops = ExcelUtils.importExcel(file, 0, 1, Shop.class);
+            // 打印测试
+            shops.forEach(System.out::println);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * 统计状态
+     *
+     * @return 统计结果
+     */
+    @GetMapping("/echarts")
+    public List<ShopDto> echartsData() {
+        return shopService.getCountByState();
     }
 }

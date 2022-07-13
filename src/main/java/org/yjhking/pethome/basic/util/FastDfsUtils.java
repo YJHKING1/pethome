@@ -36,7 +36,6 @@ public class FastDfsUtils {
             };
             String fileIds[] = storageClient.upload_file(file, extName, nvp);
             
-            System.out.println(fileIds.length);
             System.out.println("组名：" + fileIds[0]);
             System.out.println("路径: " + fileIds[1]);
             return "/" + fileIds[0] + "/" + fileIds[1];
@@ -64,7 +63,6 @@ public class FastDfsUtils {
             StorageClient storageClient = new StorageClient(trackerServer, storageServer);
             String fileIds[] = storageClient.upload_file(path, extName, null);
             
-            System.out.println(fileIds.length);
             System.out.println("组名：" + fileIds[0]);
             System.out.println("路径: " + fileIds[1]);
             return "/" + fileIds[0] + "/" + fileIds[1];
@@ -123,8 +121,4 @@ public class FastDfsUtils {
             throw new RuntimeException("删除异常," + e.getMessage());
         }
     }
-
-//    public static void main(String[] args) {
-//        FastDfsUtils.delete("group1","M00/00/0F/oYYBAGJ6IGaAWQeOAAbMJw3URKE510.gif");
-//    }
 }

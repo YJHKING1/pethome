@@ -1,4 +1,4 @@
-package org.yjhking.pethome.org.domain;
+package org.yjhking.pethome.system.domain;
 
 import lombok.Data;
 import org.yjhking.pethome.basic.domain.BaseDomain;

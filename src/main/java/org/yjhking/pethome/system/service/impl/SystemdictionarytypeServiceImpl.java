@@ -1,13 +1,13 @@
-package org.yjhking.pethome.org.service.impl;
+package org.yjhking.pethome.system.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yjhking.pethome.basic.service.impl.BaseServiceImpl;
-import org.yjhking.pethome.org.domain.Systemdictionarydetail;
-import org.yjhking.pethome.org.domain.Systemdictionarytype;
-import org.yjhking.pethome.org.mapper.SystemdictionarydetailMapper;
-import org.yjhking.pethome.org.mapper.SystemdictionarytypeMapper;
-import org.yjhking.pethome.org.service.SystemdictionarytypeService;
+import org.yjhking.pethome.system.domain.Systemdictionarydetail;
+import org.yjhking.pethome.system.domain.Systemdictionarytype;
+import org.yjhking.pethome.system.mapper.SystemdictionarydetailMapper;
+import org.yjhking.pethome.system.mapper.SystemdictionarytypeMapper;
+import org.yjhking.pethome.system.service.SystemdictionarytypeService;
 
 import java.util.List;
 

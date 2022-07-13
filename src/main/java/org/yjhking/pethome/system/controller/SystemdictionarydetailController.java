@@ -1,12 +1,12 @@
-package org.yjhking.pethome.org.controller;
+package org.yjhking.pethome.system.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.yjhking.pethome.basic.util.PageList;
-import org.yjhking.pethome.org.domain.Systemdictionarydetail;
 import org.yjhking.pethome.org.query.AjaxResult;
-import org.yjhking.pethome.org.query.SystemdictionarydetailQuery;
-import org.yjhking.pethome.org.service.SystemdictionarydetailService;
+import org.yjhking.pethome.system.domain.Systemdictionarydetail;
+import org.yjhking.pethome.system.query.SystemdictionarydetailQuery;
+import org.yjhking.pethome.system.service.SystemdictionarydetailService;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.yjhking.pethome.org.query;
+package org.yjhking.pethome.system.query;
 
 import lombok.Data;
 import org.yjhking.pethome.basic.query.BaseQuery;
@@ -9,5 +9,5 @@ import org.yjhking.pethome.basic.query.BaseQuery;
  * @author YJH
  */
 @Data
-public class SystemdictionarytypeQuery extends BaseQuery {
+public class SystemdictionarydetailQuery extends BaseQuery {
 }

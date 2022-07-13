@@ -10,6 +10,7 @@ import org.yjhking.pethome.basic.util.BaiduAiUtils;
 import org.yjhking.pethome.org.domain.Employee;
 import org.yjhking.pethome.org.domain.Shop;
 import org.yjhking.pethome.org.domain.ShopAuditLog;
+import org.yjhking.pethome.org.dto.ShopDto;
 import org.yjhking.pethome.org.mapper.EmployeeMapper;
 import org.yjhking.pethome.org.mapper.ShopAuditLogMapper;
 import org.yjhking.pethome.org.mapper.ShopMapper;
@@ -18,6 +19,7 @@ import org.yjhking.pethome.org.service.ShopService;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.beans.Transient;
+import java.util.List;
 
 /**
  * @author YJH
@@ -151,5 +153,10 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements ShopServic
         shop.setState(3);
         // 保存店铺信息
         shopMapper.updateByPrimaryKeySelective(shop);
+    }
+    
+    @Override
+    public List<ShopDto> getCountByState() {
+        return shopMapper.getCountByState();
     }
 }

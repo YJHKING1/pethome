@@ -127,7 +127,7 @@
         order by s.id
         limit #{begin},#{pageSize}
     </select>
-    <resultMap id="ShopMap" type="Shop">
+    <resultMap id="ShopMap" type="org.yjhking.pethome.org.domain.Shop">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="tel" jdbcType="VARCHAR" property="tel"/>
@@ -161,5 +161,12 @@
         *
         from t_shop
         where `name`=#{name,jdbcType=VARCHAR} and address=#{address,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getCountByState" resultType="org.yjhking.pethome.org.dto.ShopDto">
+        select state, count(*) countNum
+        from t_shop
+        group by state
+        order by state
     </select>
 </mapper>

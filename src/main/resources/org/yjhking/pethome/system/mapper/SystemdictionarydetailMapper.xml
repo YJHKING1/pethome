@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.yjhking.pethome.org.mapper.SystemdictionarydetailMapper">
-    <resultMap id="BaseResultMap" type="org.yjhking.pethome.org.domain.Systemdictionarydetail">
+<mapper namespace="org.yjhking.pethome.system.mapper.SystemdictionarydetailMapper">
+    <resultMap id="BaseResultMap" type="org.yjhking.pethome.system.domain.Systemdictionarydetail">
         <!--@Table t_systemdictionarydetail-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -23,7 +23,7 @@
         where id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
-            parameterType="org.yjhking.pethome.org.domain.Systemdictionarydetail" useGeneratedKeys="true">
+            parameterType="org.yjhking.pethome.system.domain.Systemdictionarydetail" useGeneratedKeys="true">
         insert into t_systemdictionarydetail
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">
@@ -42,7 +42,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="org.yjhking.pethome.org.domain.Systemdictionarydetail">
+    <update id="updateByPrimaryKeySelective" parameterType="org.yjhking.pethome.system.domain.Systemdictionarydetail">
         update t_systemdictionarydetail
         <set>
             <if test="name != null">
@@ -83,11 +83,11 @@
         order by d.id
         limit #{begin},#{pageSize}
     </select>
-    <resultMap id="DTMap" type="Systemdictionarydetail">
+    <resultMap id="DTMap" type="org.yjhking.pethome.system.domain.Systemdictionarydetail">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="types_id" jdbcType="BIGINT" property="typesId"/>
-        <association property="systemdictionarytype" javaType="org.yjhking.pethome.org.domain.Systemdictionarytype">
+        <association property="systemdictionarytype" javaType="org.yjhking.pethome.system.domain.Systemdictionarytype">
             <id column="tid" property="id"/>
             <result column="tname" property="name"/>
         </association>

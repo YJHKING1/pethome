@@ -3,8 +3,10 @@ package org.yjhking.pethome.org.service;
 import org.yjhking.pethome.basic.service.BaseService;
 import org.yjhking.pethome.org.domain.Shop;
 import org.yjhking.pethome.org.domain.ShopAuditLog;
+import org.yjhking.pethome.org.dto.ShopDto;
 
 import javax.mail.MessagingException;
+import java.util.List;
 
 /**
  * @author YJH
@@ -37,4 +39,6 @@ public interface ShopService extends BaseService<Shop> {
      * @param id 要激活的店铺id
      */
     void active(Long id);
+    
+    List<ShopDto> getCountByState();
 }

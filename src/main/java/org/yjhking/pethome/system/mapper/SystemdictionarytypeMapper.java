@@ -1,7 +1,8 @@
-package org.yjhking.pethome.org.mapper;
+package org.yjhking.pethome.system.mapper;
+
 
 import org.yjhking.pethome.basic.mapper.BaseMapper;
-import org.yjhking.pethome.org.domain.Systemdictionarytype;
+import org.yjhking.pethome.system.domain.Systemdictionarytype;
 
 /**
  * @author YJH
