@@ -221,14 +221,15 @@ public class ShopController {
      * @param file 导入的文件
      */
     @PostMapping("/importExcel")
-    public void importExcel(@RequestPart("file") MultipartFile file) {
+    public AjaxResult importExcel(@RequestPart("file") MultipartFile file) {
         try {
             // 导入数据
             List<Shop> shops = ExcelUtils.importExcel(file, 0, 1, Shop.class);
-            // 打印测试
-            shops.forEach(System.out::println);
+            shopService.patchInsert(shops);
+            return new AjaxResult();
         } catch (Exception e) {
             e.printStackTrace();
+            return new AjaxResult(false, "导入失败");
         }
     }
     

@@ -41,4 +41,6 @@ public interface ShopService extends BaseService<Shop> {
     void active(Long id);
     
     List<ShopDto> getCountByState();
+    
+    void patchInsert(List<Shop> shops);
 }

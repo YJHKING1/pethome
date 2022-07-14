@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 查询结果：
+ * 查询结果工具类
  * 封装分页查询和高级查询
  *
  * @author YJH

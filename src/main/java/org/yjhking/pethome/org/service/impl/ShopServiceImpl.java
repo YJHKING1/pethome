@@ -159,4 +159,10 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements ShopServic
     public List<ShopDto> getCountByState() {
         return shopMapper.getCountByState();
     }
+    
+    @Transient
+    @Override
+    public void patchInsert(List<Shop> shops) {
+        shopMapper.patchInsert(shops);
+    }
 }

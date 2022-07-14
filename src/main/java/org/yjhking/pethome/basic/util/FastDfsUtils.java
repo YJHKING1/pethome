@@ -4,7 +4,9 @@ import org.csource.common.NameValuePair;
 import org.csource.fastdfs.*;
 
 /**
- * fastDfs工具类
+ * fastDfs文件上传下载工具类
+ *
+ * @author YJH
  */
 public class FastDfsUtils {
     

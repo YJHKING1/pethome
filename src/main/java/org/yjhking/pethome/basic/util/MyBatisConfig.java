@@ -26,6 +26,8 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
+ * MyBatis配置工具类
+ *
  * @author YJH
  */
 @Configuration

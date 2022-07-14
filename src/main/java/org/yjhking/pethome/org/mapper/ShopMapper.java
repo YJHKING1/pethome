@@ -14,4 +14,6 @@ public interface ShopMapper extends BaseMapper<Shop> {
     Shop selectByNameAndAddress(@Param("name") String name, @Param("address") String address);
     
     List<ShopDto> getCountByState();
+    
+    void patchInsert(@Param("list") List<Shop> list);
 }

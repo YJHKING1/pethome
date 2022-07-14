@@ -1,4 +1,4 @@
-package org.yjhking.pethome.org.controller;
+package org.yjhking.pethome.basic.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

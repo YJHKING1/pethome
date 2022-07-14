@@ -10,6 +10,11 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 百度AI智能验证工具类
+ *
+ * @author YJH
+ */
 public class BaiduAiUtils {
     
     /**

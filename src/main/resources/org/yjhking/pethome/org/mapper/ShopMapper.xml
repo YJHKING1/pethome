@@ -120,7 +120,7 @@
         <include refid="querySql"/>
     </select>
     <select id="queryData" resultMap="ShopMap">
-        select s.*,e.id eid,e.username ename
+        select s.*, e.id eid, e.username ename
         from t_shop s
         left join t_employee e on s.admin_id = e.id
         <include refid="querySql"/>
@@ -157,10 +157,10 @@
         </foreach>
     </delete>
     <select id="selectByNameAndAddress" resultType="org.yjhking.pethome.org.domain.Shop">
-        select
-        *
+        select *
         from t_shop
-        where `name`=#{name,jdbcType=VARCHAR} and address=#{address,jdbcType=VARCHAR}
+        where `name` = #{name,jdbcType=VARCHAR}
+        and address = #{address,jdbcType=VARCHAR}
     </select>
 
     <select id="getCountByState" resultType="org.yjhking.pethome.org.dto.ShopDto">
@@ -169,4 +169,13 @@
         group by state
         order by state
     </select>
+
+    <insert id="patchInsert" keyColumn="id" keyProperty="id" parameterType="org.yjhking.pethome.org.domain.Shop"
+            useGeneratedKeys="true">
+        insert into t_shop (name, tel, registerTime, state, address, logo, admin_id) values
+        <foreach collection="list" separator="," item="shop">
+            (#{shop.name}, #{shop.tel}, #{shop.registerTime}, #{shop.state}, #{shop.address}, #{shop.logo},
+            #{shop.adminId})
+        </foreach>
+    </insert>
 </mapper>
