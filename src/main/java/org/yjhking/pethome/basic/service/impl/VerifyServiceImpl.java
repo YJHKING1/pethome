@@ -7,6 +7,8 @@ import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
 import org.yjhking.pethome.basic.service.VerifyService;
 import org.yjhking.pethome.basic.util.VerifyCodeUtils;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author YJH
  */
@@ -26,7 +28,7 @@ public class VerifyServiceImpl implements VerifyService {
         // 生成随机验证码
         String code = VerifyCodeUtils.generateVerifyCode(codeLength);
         // 把验证码的值存储到Redis,以前台传入的UUID作为key
-        redisTemplate.opsForValue().set(key, code);
+        redisTemplate.opsForValue().set(key, code, 5, TimeUnit.MINUTES);
         // 图片验证码宽度
         int codeImgWidth = 115;
         // 图片验证码高度

@@ -2,9 +2,11 @@ package org.yjhking.pethome.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
 import org.yjhking.pethome.basic.util.PageList;
-import org.yjhking.pethome.user.domain.User;
 import org.yjhking.pethome.org.query.AjaxResult;
+import org.yjhking.pethome.user.domain.User;
+import org.yjhking.pethome.user.dto.UserDto;
 import org.yjhking.pethome.user.query.UserQuery;
 import org.yjhking.pethome.user.service.UserService;
 
@@ -117,6 +119,23 @@ public class UserController {
             e.printStackTrace();
             ajaxResult.setSuccess(false);
             ajaxResult.setMsg("批量删除失败");
+        }
+        return ajaxResult;
+    }
+    
+    @PostMapping("/register")
+    public AjaxResult register(UserDto userDto) {
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            userService.register(userDto);
+        } catch (BusinessRuntimeException e) {
+            e.printStackTrace();
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMsg(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMsg("系统错误");
         }
         return ajaxResult;
     }

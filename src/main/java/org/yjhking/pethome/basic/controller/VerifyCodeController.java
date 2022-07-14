@@ -28,7 +28,7 @@ public class VerifyCodeController {
         } catch (BusinessRuntimeException e) {
             e.printStackTrace();
             result.setSuccess(false);
-            result.setMsg("获取验证码失败");
+            result.setMsg(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             result.setSuccess(false);
