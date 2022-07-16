@@ -21,4 +21,16 @@ public class UserDto {
      * 确认密码
      */
     private String passwordRepeat;
+    /**
+     * 图片验证码
+     */
+    private String imageCode;
+    /**
+     * 手机号
+     */
+    private String phone;
+    /**
+     * 手机验证码
+     */
+    private String phoneCode;
 }

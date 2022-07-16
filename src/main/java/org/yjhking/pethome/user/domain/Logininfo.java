@@ -22,5 +22,5 @@ public class Logininfo extends BaseDomain {
     
     private Integer type;
     
-    private Boolean disable;
+    private Boolean disable = true;
 }

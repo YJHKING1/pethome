@@ -10,6 +10,7 @@ import org.yjhking.pethome.user.dto.UserDto;
 import org.yjhking.pethome.user.query.UserQuery;
 import org.yjhking.pethome.user.service.UserService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -123,11 +124,17 @@ public class UserController {
         return ajaxResult;
     }
     
-    @PostMapping("/register")
-    public AjaxResult register(UserDto userDto) {
+    /**
+     * 邮箱注册
+     *
+     * @param userDto 注册参数
+     * @return 返回信息
+     */
+    @PostMapping("/register/email")
+    public AjaxResult emailRegister(@RequestBody UserDto userDto) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            userService.register(userDto);
+            userService.emailRegister(userDto);
         } catch (BusinessRuntimeException e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);
@@ -138,5 +145,46 @@ public class UserController {
             ajaxResult.setMsg("系统错误");
         }
         return ajaxResult;
+    }
+    
+    /**
+     * 电话注册
+     *
+     * @param userDto 注册参数
+     * @return 返回信息
+     */
+    @PostMapping("/register/phone")
+    public AjaxResult phoneRegister(@RequestBody UserDto userDto) {
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            userService.phoneRegister(userDto);
+        } catch (BusinessRuntimeException e) {
+            e.printStackTrace();
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMsg(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMsg("系统错误");
+        }
+        return ajaxResult;
+    }
+    
+    /**
+     * 用户邮件激活
+     *
+     * @param id 要激活的用户id
+     * @return 返回信息
+     */
+    @GetMapping("/active/{id}")
+    public AjaxResult active(@PathVariable Long id, HttpServletResponse response) {
+        try {
+            userService.active(id);
+            response.sendRedirect("http://localhost/email_true.html");
+            return new AjaxResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new AjaxResult(false, "激活失败");
+        }
     }
 }

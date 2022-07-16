@@ -2,6 +2,7 @@ package org.yjhking.pethome.system.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.yjhking.pethome.basic.service.impl.BaseServiceImpl;
 import org.yjhking.pethome.system.domain.Systemdictionarydetail;
 import org.yjhking.pethome.system.domain.Systemdictionarytype;
@@ -22,6 +23,7 @@ public class SystemdictionarytypeServiceImpl extends BaseServiceImpl<Systemdicti
     @Autowired
     private SystemdictionarydetailMapper systemdictionarydetailMapper;
     
+    @Transactional
     @Override
     public Integer deleteByPrimaryKey(Long id) {
         List<Systemdictionarydetail> systemdictionarydetails = systemdictionarydetailMapper.selectAll();
@@ -33,6 +35,7 @@ public class SystemdictionarytypeServiceImpl extends BaseServiceImpl<Systemdicti
         return systemdictionarytypeMapper.deleteByPrimaryKey(id);
     }
     
+    @Transactional
     @Override
     public void patchDelete(List<Long> ids) {
         List<Systemdictionarydetail> systemdictionarydetails = systemdictionarydetailMapper.selectAll();

@@ -8,6 +8,7 @@ import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.multipart.MultipartFile;
+import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -75,7 +76,7 @@ public class ExcelUtils {
             response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
             workbook.write(response.getOutputStream());
         } catch (IOException e) {
-            //throw new NormalException(e.getMessage());
+            throw new BusinessRuntimeException(e.getMessage());
         }
     }
     
@@ -96,10 +97,9 @@ public class ExcelUtils {
         try {
             list = ExcelImportUtil.importExcel(new File(filePath), pojoClass, params);
         } catch (NoSuchElementException e) {
-            //throw new NormalException("模板不能为空");
+            throw new BusinessRuntimeException("模板不能为空");
         } catch (Exception e) {
-            e.printStackTrace();
-            //throw new NormalException(e.getMessage());
+            throw new BusinessRuntimeException(e.getMessage());
         }
         return list;
     }
@@ -123,12 +123,10 @@ public class ExcelUtils {
         try {
             list = ExcelImportUtil.importExcel(file.getInputStream(), pojoClass, params);
         } catch (NoSuchElementException e) {
-            // throw new NormalException("excel文件不能为空");
+            throw new BusinessRuntimeException("excel文件不能为空");
         } catch (Exception e) {
-            //throw new NormalException(e.getMessage());
-            System.out.println(e.getMessage());
+            throw new BusinessRuntimeException(e.getMessage());
         }
         return list;
     }
-    
 }

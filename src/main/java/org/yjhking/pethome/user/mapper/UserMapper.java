@@ -7,4 +7,5 @@ import org.yjhking.pethome.user.domain.User;
  * @author YJH
  */
 public interface UserMapper extends BaseMapper<User> {
+    User selectByPhone(String phone);
 }

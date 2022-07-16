@@ -9,9 +9,23 @@ import org.yjhking.pethome.user.dto.UserDto;
  */
 public interface UserService extends BaseService<User> {
     /**
-     * 用户注册业务层接口
+     * 邮箱注册业务层接口
      *
      * @param userDto 用户注册信息
      */
-    void register(UserDto userDto);
+    void emailRegister(UserDto userDto);
+    
+    /**
+     * 手机注册业务层接口
+     *
+     * @param userDto 用户注册信息
+     */
+    void phoneRegister(UserDto userDto);
+    
+    /**
+     * 邮箱激活业务层接口
+     *
+     * @param id 激活id
+     */
+    void active(Long id);
 }

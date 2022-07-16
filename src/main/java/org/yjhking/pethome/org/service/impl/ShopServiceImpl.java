@@ -1,12 +1,16 @@
 package org.yjhking.pethome.org.service.impl;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
 import org.yjhking.pethome.basic.service.impl.BaseServiceImpl;
 import org.yjhking.pethome.basic.util.BaiduAiUtils;
+import org.yjhking.pethome.basic.util.Md5Utils;
+import org.yjhking.pethome.basic.util.StrUtils;
 import org.yjhking.pethome.org.domain.Employee;
 import org.yjhking.pethome.org.domain.Shop;
 import org.yjhking.pethome.org.domain.ShopAuditLog;
@@ -15,10 +19,11 @@ import org.yjhking.pethome.org.mapper.EmployeeMapper;
 import org.yjhking.pethome.org.mapper.ShopAuditLogMapper;
 import org.yjhking.pethome.org.mapper.ShopMapper;
 import org.yjhking.pethome.org.service.ShopService;
+import org.yjhking.pethome.user.domain.Logininfo;
+import org.yjhking.pethome.user.mapper.LogininfoMapper;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.beans.Transient;
 import java.util.List;
 
 /**
@@ -34,8 +39,10 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements ShopServic
     private ShopAuditLogMapper shopAuditLogMapper;
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private LogininfoMapper logininfoMapper;
     
-    @Transient
+    @Transactional
     @Override
     public void settlement(Shop shop) {
         // 每个参数的空值判断
@@ -69,20 +76,26 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements ShopServic
         }
         // 保存店铺管理员信息t_employee
         Employee employee = shop.getEmployee();
+        // 加盐加密
+        String salt = StrUtils.getComplexRandomString(32);
+        String password = Md5Utils.encrypByMd5(employee.getPassword() + salt);
+        employee.setSalt(salt);
+        employee.setPassword(password);
         employeeMapper.insertSelective(employee);
         // 将店铺管理员的id设置进店铺信息中
         shop.setAdminId(employee.getId());
-        
         // 保存店铺信息t_shop
         shopMapper.insertSelective(shop);
+        Logininfo logininfo = employee2Logininfo(employee);
+        logininfoMapper.insertSelective(logininfo);
         // 将店铺的id设置进员工信息中
         employee.setShopId(shop.getId());
-        
+        employee.setLogininfoId(logininfo.getId());
         // 将店铺的id更新到t_employee中
         employeeMapper.updateByPrimaryKeySelective(employee);
     }
     
-    @Transient
+    @Transactional
     @Override
     public void pass(ShopAuditLog log) throws MessagingException {
         // 修改状态
@@ -111,7 +124,7 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements ShopServic
         javaMailSender.send(mimeMessage);
     }
     
-    @Transient
+    @Transactional
     @Override
     public void reject(ShopAuditLog log) throws MessagingException {
         // 修改状态
@@ -145,6 +158,7 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements ShopServic
         shopMapper.deleteByPrimaryKey(shop.getId());
     }
     
+    @Transactional
     @Override
     public void active(Long id) {
         // 查询店铺
@@ -160,9 +174,16 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements ShopServic
         return shopMapper.getCountByState();
     }
     
-    @Transient
+    @Transactional
     @Override
     public void patchInsert(List<Shop> shops) {
         shopMapper.patchInsert(shops);
+    }
+    
+    private Logininfo employee2Logininfo(Employee employee) {
+        Logininfo logininfo = new Logininfo();
+        BeanUtils.copyProperties(employee, logininfo);
+        logininfo.setType(0);
+        return logininfo;
     }
 }

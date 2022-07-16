@@ -14,7 +14,6 @@ public class FastDfsUtils {
     public static String CONF_FILENAME = FastDfsUtils.class.getClassLoader()
             .getResource("fdfs_client.conf").getFile();
     
-    
     /**
      * 上传文件
      *
@@ -30,18 +29,13 @@ public class FastDfsUtils {
             TrackerClient tracker = new TrackerClient();
             TrackerServer trackerServer = tracker.getConnection();
             StorageServer storageServer = null;
-            
             StorageClient storageClient = new StorageClient(trackerServer, storageServer);
             NameValuePair nvp[] = new NameValuePair[]{
                     new NameValuePair("age", "18"),
                     new NameValuePair("sex", "male")
             };
             String fileIds[] = storageClient.upload_file(file, extName, nvp);
-            
-            System.out.println("组名：" + fileIds[0]);
-            System.out.println("路径: " + fileIds[1]);
             return "/" + fileIds[0] + "/" + fileIds[1];
-            
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -64,9 +58,6 @@ public class FastDfsUtils {
             StorageServer storageServer = null;
             StorageClient storageClient = new StorageClient(trackerServer, storageServer);
             String fileIds[] = storageClient.upload_file(path, extName, null);
-            
-            System.out.println("组名：" + fileIds[0]);
-            System.out.println("路径: " + fileIds[1]);
             return "/" + fileIds[0] + "/" + fileIds[1];
             
         } catch (Exception e) {
@@ -117,7 +108,6 @@ public class FastDfsUtils {
             
             StorageClient storageClient = new StorageClient(trackerServer, storageServer);
             int i = storageClient.delete_file(groupName, fileName);
-            System.out.println(i == 0 ? "删除成功" : "删除失败:" + i);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("删除异常," + e.getMessage());

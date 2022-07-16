@@ -147,4 +147,10 @@
         <include refid="Base_Column_List"/>
         from t_user
     </select>
+
+    <select id="selectByPhone" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user where phone = #{phone,jdbcType=VARCHAR}
+    </select>
 </mapper>

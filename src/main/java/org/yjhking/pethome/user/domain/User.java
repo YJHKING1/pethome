@@ -26,7 +26,7 @@ public class User extends BaseDomain {
     
     private Integer age;
     
-    private Date createtime;
+    private Date createtime = new Date();
     
     private String headimg;
     

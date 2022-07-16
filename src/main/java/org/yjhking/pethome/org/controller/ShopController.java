@@ -227,6 +227,9 @@ public class ShopController {
             List<Shop> shops = ExcelUtils.importExcel(file, 0, 1, Shop.class);
             shopService.patchInsert(shops);
             return new AjaxResult();
+        } catch (BusinessRuntimeException e) {
+            e.printStackTrace();
+            return new AjaxResult(false, e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             return new AjaxResult(false, "导入失败");
