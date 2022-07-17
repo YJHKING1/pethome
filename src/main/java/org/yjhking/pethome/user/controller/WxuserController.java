@@ -2,8 +2,8 @@ package org.yjhking.pethome.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.PageList;
-import org.yjhking.pethome.org.query.AjaxResult;
 import org.yjhking.pethome.user.domain.Wxuser;
 import org.yjhking.pethome.user.query.WxuserQuery;
 import org.yjhking.pethome.user.service.WxuserService;

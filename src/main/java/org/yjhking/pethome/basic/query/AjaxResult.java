@@ -1,4 +1,4 @@
-package org.yjhking.pethome.org.query;
+package org.yjhking.pethome.basic.query;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

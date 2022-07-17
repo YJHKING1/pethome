@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
 import org.yjhking.pethome.basic.dto.MobileCodeDto;
+import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.service.VerifyService;
-import org.yjhking.pethome.org.query.AjaxResult;
 
 /**
  * @author YJH

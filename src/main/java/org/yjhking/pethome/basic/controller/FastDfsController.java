@@ -2,8 +2,8 @@ package org.yjhking.pethome.basic.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.FastDfsUtils;
-import org.yjhking.pethome.org.query.AjaxResult;
 
 import java.io.IOException;
 

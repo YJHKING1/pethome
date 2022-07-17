@@ -2,9 +2,9 @@ package org.yjhking.pethome.org.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.PageList;
 import org.yjhking.pethome.org.domain.Department;
-import org.yjhking.pethome.org.query.AjaxResult;
 import org.yjhking.pethome.org.query.DepartmentQuery;
 import org.yjhking.pethome.org.service.DepartmentService;
 

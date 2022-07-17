@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
+import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.ExcelUtils;
 import org.yjhking.pethome.basic.util.PageList;
 import org.yjhking.pethome.org.domain.Shop;
 import org.yjhking.pethome.org.domain.ShopAuditLog;
 import org.yjhking.pethome.org.dto.ShopDto;
-import org.yjhking.pethome.org.query.AjaxResult;
 import org.yjhking.pethome.org.query.ShopQuery;
 import org.yjhking.pethome.org.service.ShopService;
 

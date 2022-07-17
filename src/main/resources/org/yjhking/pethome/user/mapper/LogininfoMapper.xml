@@ -29,7 +29,8 @@
         where id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from t_logininfo
+        delete
+        from t_logininfo
         where id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
@@ -113,5 +114,15 @@
         select
         <include refid="Base_Column_List"/>
         from t_logininfo
+    </select>
+
+    <select id="selectByAccount" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_logininfo
+        where (username = #{account,jdbcType=VARCHAR}
+        or phone = #{account,jdbcType=VARCHAR}
+        or email = #{account,jdbcType=VARCHAR})
+        and type = #{loginType,jdbcType=INTEGER}
     </select>
 </mapper>

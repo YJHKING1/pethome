@@ -1,4 +1,4 @@
-package org.yjhking.pethome.basic.util;
+package org.yjhking.pethome.basic.config;
 
 import org.apache.ibatis.io.VFS;
 import org.apache.ibatis.session.SqlSessionFactory;

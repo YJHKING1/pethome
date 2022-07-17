@@ -7,12 +7,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 /**
+ * 处理跨域请求
+ * 告诉浏览器，我允许哪些服务器访问，哪些请求方式访问，是否运行携带请求头
+ *
  * @author YJH
  */
 @Configuration
-/**
- * 告诉浏览器，我允许哪些服务器访问，哪些请求方式访问，是否运行携带请求头
- */
 public class GlobalCorsConfig {
     @Bean
     public CorsFilter corsFilter() {

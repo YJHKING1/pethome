@@ -2,9 +2,9 @@ package org.yjhking.pethome.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.PageList;
 import org.yjhking.pethome.user.domain.Logininfo;
-import org.yjhking.pethome.org.query.AjaxResult;
 import org.yjhking.pethome.user.query.LogininfoQuery;
 import org.yjhking.pethome.user.service.LogininfoService;
 

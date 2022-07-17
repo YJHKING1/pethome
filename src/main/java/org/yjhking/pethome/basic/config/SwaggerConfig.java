@@ -23,6 +23,7 @@ import java.util.List;
  * @author YJH
  *//*
 
+
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
@@ -54,4 +55,5 @@ public class SwaggerConfig {
                 .version("1.0")
                 .build();
     }
-}*/
+}
+*/

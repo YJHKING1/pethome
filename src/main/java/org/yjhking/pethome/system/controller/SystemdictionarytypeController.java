@@ -2,8 +2,8 @@ package org.yjhking.pethome.system.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.PageList;
-import org.yjhking.pethome.org.query.AjaxResult;
 import org.yjhking.pethome.system.domain.Systemdictionarytype;
 import org.yjhking.pethome.system.query.SystemdictionarytypeQuery;
 import org.yjhking.pethome.system.service.SystemdictionarytypeService;
