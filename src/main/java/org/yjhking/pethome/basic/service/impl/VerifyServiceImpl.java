@@ -80,8 +80,28 @@ public class VerifyServiceImpl implements VerifyService {
         if (user != null) {
             throw new BusinessRuntimeException("该手机号已注册，请直接登录");
         }
+        // 发送短信验证码
+        getSmsCode(phone, VerifyCodeConstants.REGISTER_CODE_PREFIX);
+    }
+    
+    @Override
+    public void binderSmsCode(MobileCodeDto mobileCodeDto) {
+        String phone = mobileCodeDto.getPhone();
+        if (phone == null || phone.trim().length() == 0) {
+            throw new BusinessRuntimeException("手机号不能为空");
+        }
+        // 发送短信验证码
+        getSmsCode(phone, VerifyCodeConstants.BINDER_CODE_PREFIX);
+    }
+    
+    /**
+     * 发送短信验证码
+     *
+     * @param phone 要发送的手机号
+     */
+    private void getSmsCode(String phone, String prefix) {
         // 判断原来的验证码是否过期
-        String codeString = (String) redisTemplate.opsForValue().get(VerifyCodeConstants.REGISTER_CODE_PREFIX + phone);
+        String codeString = (String) redisTemplate.opsForValue().get(prefix + phone);
         String code = null;
         if (codeString != null && codeString.trim().length() > 0) {
             String time = codeString.split(":")[1];
@@ -96,7 +116,7 @@ public class VerifyServiceImpl implements VerifyService {
             code = StrUtils.getRandomString(codeLength);
         }
         // 将验证码放入redis中，设置有效期为3分钟
-        redisTemplate.opsForValue().set(VerifyCodeConstants.REGISTER_CODE_PREFIX + phone,
+        redisTemplate.opsForValue().set(prefix + phone,
                 code + ":" + System.currentTimeMillis(), 3, TimeUnit.MINUTES);
         // 发短信
 //        String smsCode = SmsUtils.sendSms(phone, "宠物乐园：您的验证码为：" + code + "请在3分钟内使用");

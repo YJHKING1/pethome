@@ -65,4 +65,24 @@ public class VerifyCodeController {
         }
         return result;
     }
+    
+    /**
+     * 微信绑定验证码
+     *
+     * @param mobileCodeDto 验证码
+     * @return 返回信息
+     */
+    @PostMapping("/binderSmsCode")
+    public AjaxResult binderSmsCode(@RequestBody MobileCodeDto mobileCodeDto) {
+        try {
+            verifyService.binderSmsCode(mobileCodeDto);
+            return AjaxResult.me();
+        } catch (BusinessRuntimeException e) {
+            e.printStackTrace();
+            return new AjaxResult(false, e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new AjaxResult(false, "系统异常");
+        }
+    }
 }

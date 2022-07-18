@@ -22,4 +22,11 @@ public interface VerifyService {
      * @param mobileCodeDto 短信验证码DTO
      */
     void smsCode(MobileCodeDto mobileCodeDto);
+    
+    /**
+     * 微信绑定验证码
+     *
+     * @param mobileCodeDto 短信验证码DTO
+     */
+    void binderSmsCode(MobileCodeDto mobileCodeDto);
 }
