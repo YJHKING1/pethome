@@ -21,10 +21,13 @@ public class GlobalCorsConfig {
         //1) 允许的域,不要写/，否则cookie就无法使用了
         config.addAllowedOrigin("http://127.0.0.1:8081");
         config.addAllowedOrigin("http://localhost:8081");
+        config.addAllowedOrigin("http://bugtracker.itsource.cn:8081");
         config.addAllowedOrigin("http://127.0.0.1:80");
         config.addAllowedOrigin("http://localhost:80");
+        config.addAllowedOrigin("http://bugtracker.itsource.cn:80");
         config.addAllowedOrigin("http://127.0.0.1");
         config.addAllowedOrigin("http://localhost");
+        config.addAllowedOrigin("http://bugtracker.itsource.cn");
         
         //2) 是否允许发送Cookie信息
         config.setAllowCredentials(true);
