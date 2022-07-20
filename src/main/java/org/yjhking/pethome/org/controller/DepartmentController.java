@@ -2,6 +2,7 @@ package org.yjhking.pethome.org.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.yjhking.pethome.basic.annotation.PreAuthorize;
 import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.PageList;
 import org.yjhking.pethome.org.domain.Department;
@@ -25,6 +26,7 @@ public class DepartmentController {
      * @return 查询结果
      */
     @GetMapping
+    @PreAuthorize(name = "部门列表", sn = "department:list")
     public List<Department> findAll() {
         return departmentService.selectAll();
     }
@@ -36,6 +38,7 @@ public class DepartmentController {
      * @return 查询结果
      */
     @GetMapping("/{id}")
+    @PreAuthorize(name = "获得部门", sn = "department:get")
     public Department findById(@PathVariable Long id) {
         return departmentService.selectByPrimaryKey(id);
     }
@@ -47,6 +50,7 @@ public class DepartmentController {
      * @return 返回信息
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize(name = "删除部门", sn = "department:delete")
     public AjaxResult deleteById(@PathVariable Long id) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
@@ -67,6 +71,7 @@ public class DepartmentController {
      * @return 返回信息
      */
     @PutMapping("/{id}")
+    @PreAuthorize(name = "修改部门", sn = "department:save")
     public AjaxResult editById(@RequestBody Department department, @PathVariable Long id) {
         department.setId(id);
         AjaxResult ajaxResult = new AjaxResult();
@@ -87,6 +92,7 @@ public class DepartmentController {
      * @return 返回信息
      */
     @PutMapping
+    @PreAuthorize(name = "保存部门", sn = "department:save")
     public AjaxResult add(@RequestBody Department department) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
@@ -106,6 +112,7 @@ public class DepartmentController {
      * @return 查询结果
      */
     @PostMapping
+    @PreAuthorize(name = "部门列表", sn = "department:list")
     public PageList<Department> queryPage(@RequestBody DepartmentQuery departmentQuery) {
         return departmentService.queryData(departmentQuery);
     }
@@ -117,6 +124,7 @@ public class DepartmentController {
      * @return 返回信息
      */
     @PatchMapping
+    @PreAuthorize(name = "批量删除部门", sn = "department:delete")
     public AjaxResult patchDelete(@RequestBody List<Long> ids) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
