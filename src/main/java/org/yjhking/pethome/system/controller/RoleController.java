@@ -1,25 +1,25 @@
-package org.yjhking.pethome.user.controller;
+package org.yjhking.pethome.system.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.PageList;
-import org.yjhking.pethome.user.domain.Wxuser;
-import org.yjhking.pethome.user.query.WxuserQuery;
-import org.yjhking.pethome.user.service.WxuserService;
+import org.yjhking.pethome.system.domain.Role;
+import org.yjhking.pethome.system.query.RoleQuery;
+import org.yjhking.pethome.system.service.RoleService;
 
 import java.util.List;
 
 /**
- * (t_wxwxuser)表控制层
+ * (t_role)表控制层
  *
- * @author YJH
+ * @author xxxxx
  */
 @RestController
-@RequestMapping("/wxwxuser")
-public class WxuserController {
+@RequestMapping("/role")
+public class RoleController {
     @Autowired
-    private WxuserService wxuserService;
+    private RoleService roleService;
     
     /**
      * 查询全部
@@ -27,8 +27,8 @@ public class WxuserController {
      * @return 查询结果
      */
     @GetMapping
-    public List<Wxuser> findAll() {
-        return wxuserService.selectAll();
+    public List<Role> findAll() {
+        return roleService.selectAll();
     }
     
     /**
@@ -38,8 +38,8 @@ public class WxuserController {
      * @return 查询结果
      */
     @GetMapping("/{id}")
-    public Wxuser findById(@PathVariable Long id) {
-        return wxuserService.selectByPrimaryKey(id);
+    public Role findById(@PathVariable Long id) {
+        return roleService.selectByPrimaryKey(id);
     }
     
     /**
@@ -52,7 +52,7 @@ public class WxuserController {
     public AjaxResult deleteById(@PathVariable Long id) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            wxuserService.deleteByPrimaryKey(id);
+            roleService.deleteByPrimaryKey(id);
         } catch (Exception e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);
@@ -64,15 +64,15 @@ public class WxuserController {
     /**
      * 增加及修改
      *
-     * @param wxuser 增加或修改内容
+     * @param role 增加或修改内容
      * @return 返回信息
      */
     @PutMapping
-    public AjaxResult add(@RequestBody Wxuser wxuser) {
+    public AjaxResult add(@RequestBody Role role) {
         AjaxResult ajaxResult = new AjaxResult();
-        if (wxuser.getId() == null) {
+        if (role.getId() == null) {
             try {
-                wxuserService.insertSelective(wxuser);
+                roleService.insertSelective(role);
             } catch (Exception e) {
                 e.printStackTrace();
                 ajaxResult.setSuccess(false);
@@ -80,7 +80,7 @@ public class WxuserController {
             }
         } else {
             try {
-                wxuserService.updateByPrimaryKeySelective(wxuser);
+                roleService.updateByPrimaryKeySelective(role);
             } catch (Exception e) {
                 e.printStackTrace();
                 ajaxResult.setSuccess(false);
@@ -94,12 +94,12 @@ public class WxuserController {
     /**
      * 高级分页查询
      *
-     * @param wxuserQuery 高级分页查询参数
+     * @param roleQuery 高级分页查询参数
      * @return 查询结果
      */
     @PostMapping
-    public PageList<Wxuser> queryPage(@RequestBody WxuserQuery wxuserQuery) {
-        return wxuserService.queryData(wxuserQuery);
+    public PageList<Role> queryPage(@RequestBody RoleQuery roleQuery) {
+        return roleService.queryData(roleQuery);
     }
     
     /**
@@ -112,7 +112,7 @@ public class WxuserController {
     public AjaxResult patchDelete(@RequestBody List<Long> ids) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            wxuserService.patchDelete(ids);
+            roleService.patchDelete(ids);
         } catch (Exception e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);

@@ -1,25 +1,25 @@
-package org.yjhking.pethome.user.controller;
+package org.yjhking.pethome.system.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.PageList;
-import org.yjhking.pethome.user.domain.Wxuser;
-import org.yjhking.pethome.user.query.WxuserQuery;
-import org.yjhking.pethome.user.service.WxuserService;
+import org.yjhking.pethome.system.domain.Permission;
+import org.yjhking.pethome.system.query.PermissionQuery;
+import org.yjhking.pethome.system.service.PermissionService;
 
 import java.util.List;
 
 /**
- * (t_wxwxuser)表控制层
+ * (t_permission)表控制层
  *
- * @author YJH
+ * @author xxxxx
  */
 @RestController
-@RequestMapping("/wxwxuser")
-public class WxuserController {
+@RequestMapping("/permission")
+public class PermissionController {
     @Autowired
-    private WxuserService wxuserService;
+    private PermissionService permissionService;
     
     /**
      * 查询全部
@@ -27,8 +27,8 @@ public class WxuserController {
      * @return 查询结果
      */
     @GetMapping
-    public List<Wxuser> findAll() {
-        return wxuserService.selectAll();
+    public List<Permission> findAll() {
+        return permissionService.selectAll();
     }
     
     /**
@@ -38,8 +38,8 @@ public class WxuserController {
      * @return 查询结果
      */
     @GetMapping("/{id}")
-    public Wxuser findById(@PathVariable Long id) {
-        return wxuserService.selectByPrimaryKey(id);
+    public Permission findById(@PathVariable Long id) {
+        return permissionService.selectByPrimaryKey(id);
     }
     
     /**
@@ -52,7 +52,7 @@ public class WxuserController {
     public AjaxResult deleteById(@PathVariable Long id) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            wxuserService.deleteByPrimaryKey(id);
+            permissionService.deleteByPrimaryKey(id);
         } catch (Exception e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);
@@ -64,15 +64,15 @@ public class WxuserController {
     /**
      * 增加及修改
      *
-     * @param wxuser 增加或修改内容
+     * @param permission 增加或修改内容
      * @return 返回信息
      */
     @PutMapping
-    public AjaxResult add(@RequestBody Wxuser wxuser) {
+    public AjaxResult add(@RequestBody Permission permission) {
         AjaxResult ajaxResult = new AjaxResult();
-        if (wxuser.getId() == null) {
+        if (permission.getId() == null) {
             try {
-                wxuserService.insertSelective(wxuser);
+                permissionService.insertSelective(permission);
             } catch (Exception e) {
                 e.printStackTrace();
                 ajaxResult.setSuccess(false);
@@ -80,7 +80,7 @@ public class WxuserController {
             }
         } else {
             try {
-                wxuserService.updateByPrimaryKeySelective(wxuser);
+                permissionService.updateByPrimaryKeySelective(permission);
             } catch (Exception e) {
                 e.printStackTrace();
                 ajaxResult.setSuccess(false);
@@ -94,12 +94,12 @@ public class WxuserController {
     /**
      * 高级分页查询
      *
-     * @param wxuserQuery 高级分页查询参数
+     * @param permissionQuery 高级分页查询参数
      * @return 查询结果
      */
     @PostMapping
-    public PageList<Wxuser> queryPage(@RequestBody WxuserQuery wxuserQuery) {
-        return wxuserService.queryData(wxuserQuery);
+    public PageList<Permission> queryPage(@RequestBody PermissionQuery permissionQuery) {
+        return permissionService.queryData(permissionQuery);
     }
     
     /**
@@ -112,7 +112,7 @@ public class WxuserController {
     public AjaxResult patchDelete(@RequestBody List<Long> ids) {
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            wxuserService.patchDelete(ids);
+            permissionService.patchDelete(ids);
         } catch (Exception e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);
