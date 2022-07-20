@@ -120,4 +120,19 @@ public class MenuController {
         }
         return ajaxResult;
     }
+    
+    /**
+     * 菜单树
+     *
+     * @return 菜单树
+     */
+    @GetMapping("/tree")
+    public List<Menu> menuTree() {
+        try {
+            return menuService.menuTree();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

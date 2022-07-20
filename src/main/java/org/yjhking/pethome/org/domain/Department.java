@@ -36,8 +36,10 @@ public class Department extends BaseDomain {
      */
     private Department parent;
     
-    // 用于封装当前部门的子部门
-    // 部门树最后一级没有数据就不显示
+    /**
+     * 用于封装当前部门的子部门
+     * 部门树最后一级没有数据就不显示
+     */
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Department> children = new ArrayList<>();
 }
