@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.yjhking.pethome.system.mapper.PermissionMapper">
     <resultMap id="BaseResultMap" type="org.yjhking.pethome.system.domain.Permission">
-        <!--@Table t_permission-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="url" jdbcType="VARCHAR" property="url"/>
@@ -82,4 +81,44 @@
         from t_permission
         where sn=#{sn,jdbcType=VARCHAR}
     </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_permission
+    </select>
+    <select id="queryCount" resultType="Long">
+        select count(*)
+        from t_permission
+        <include refid="querySql"/>
+    </select>
+    <sql id="querySql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and name like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+    </sql>
+    <select id="queryData" resultMap="PerMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_permission
+        <include refid="querySql"/>
+        order by id
+        limit #{begin}, #{pageSize}
+    </select>
+    <resultMap id="PerMap" type="org.yjhking.pethome.system.domain.Permission">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="descs" jdbcType="VARCHAR" property="descs"/>
+        <result column="sn" jdbcType="VARCHAR" property="sn"/>
+    </resultMap>
+    <delete id="patchDelete">
+        delete
+        from t_permission
+        where id in
+        <foreach collection="list" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

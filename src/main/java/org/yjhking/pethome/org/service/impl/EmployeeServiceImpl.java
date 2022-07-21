@@ -36,7 +36,9 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee> implements Em
         logininfoMapper.insertSelective(logininfo);
         employee.setLogininfoId(logininfo.getId());
         // 新增到数据库
-        return employeeMapper.insertSelective(employee);
+        employeeMapper.insertSelective(employee);
+        employeeMapper.insertEmployeeRole(employee);
+        return null;
     }
     
     @Transactional
@@ -51,6 +53,8 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee> implements Em
         Long logininfoId = employeeMapper.selectByPrimaryKey(employee.getId()).getLogininfoId();
         logininfo.setId(logininfoId);
         logininfoMapper.updateByPrimaryKeySelective(logininfo);
+        employeeMapper.deleteEmployeeRoleByEmployeeId(employee.getId());
+        employeeMapper.insertEmployeeRole(employee);
         // 更新到数据库
         return employeeMapper.updateByPrimaryKeySelective(employee);
     }
@@ -67,6 +71,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee> implements Em
         Employee employee = employeeMapper.selectByPrimaryKey(id);
         //删除登录信息表数据
         logininfoMapper.deleteByPrimaryKey(employee.getLogininfoId());
+        employeeMapper.deleteEmployeeRoleByEmployeeId(id);
         return super.deleteByPrimaryKey(id);
     }
 }

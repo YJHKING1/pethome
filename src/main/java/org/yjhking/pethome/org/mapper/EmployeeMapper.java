@@ -9,4 +9,7 @@ import org.yjhking.pethome.org.domain.Employee;
  * @author YJH
  */
 public interface EmployeeMapper extends BaseMapper<Employee> {
+    void deleteEmployeeRoleByEmployeeId(Long id);
+    
+    void insertEmployeeRole(Employee employee);
 }

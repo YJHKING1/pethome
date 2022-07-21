@@ -1,6 +1,7 @@
 package org.yjhking.pethome.org.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.yjhking.pethome.basic.domain.BaseDomain;
 
 /**
@@ -9,6 +10,7 @@ import org.yjhking.pethome.basic.domain.BaseDomain;
  * @author YJH
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class Employee extends BaseDomain {
     private String username;
     
@@ -41,4 +43,8 @@ public class Employee extends BaseDomain {
      * 店铺
      */
     private Shop shop;
+    /**
+     * 方便从中间表中为当前员工添加角色
+     */
+    private Long roleId;
 }

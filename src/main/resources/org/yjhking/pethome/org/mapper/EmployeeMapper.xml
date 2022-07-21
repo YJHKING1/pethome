@@ -153,15 +153,16 @@
         <include refid="querySql"/>
     </select>
     <select id="queryData" resultMap="EmployeeMap">
-        select e.*,d.id did,d.name dname, s.id sid, s.name sname
+        select e.*,er.role_id,d.id did,d.name dname, s.id sid, s.name sname
         from t_employee e
         left join t_department d on e.department_id = d.id
         left join t_shop s on s.admin_id = e.id
+        left join t_employee_role er on e.id = er.employee_id
         <include refid="querySql"/>
         order by e.id
         limit #{begin},#{pageSize}
     </select>
-    <resultMap id="EmployeeMap" type="Employee">
+    <resultMap id="EmployeeMap" type="org.yjhking.pethome.org.domain.Employee">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
@@ -173,6 +174,7 @@
         <result column="department_id" jdbcType="BIGINT" property="departmentId"/>
         <result column="logininfo_id" jdbcType="BIGINT" property="logininfoId"/>
         <result column="shop_id" jdbcType="BIGINT" property="shopId"/>
+        <result column="role_id" jdbcType="BIGINT" property="roleId"/>
         <association property="department" javaType="org.yjhking.pethome.org.domain.Department">
             <id property="id" column="did"/>
             <result property="name" column="dname"/>
@@ -185,7 +187,7 @@
     <sql id="querySql">
         <where>
             <if test="keyword != null and keyword != ''">
-                and username like concat('%', #{keyword}, '%')
+                and e.username like concat('%', #{keyword}, '%')
             </if>
         </where>
     </sql>
@@ -197,4 +199,14 @@
             #{id}
         </foreach>
     </delete>
+
+    <delete id="deleteEmployeeRoleByEmployeeId">
+        delete from t_employee_role
+        where employee_id = #{id}
+    </delete>
+
+    <insert id="insertEmployeeRole">
+        insert into t_employee_role(employee_id, role_id)
+        values (#{id},#{roleId})
+    </insert>
 </mapper>
