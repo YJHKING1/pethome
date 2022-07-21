@@ -209,4 +209,13 @@
         insert into t_employee_role(employee_id, role_id)
         values (#{id},#{roleId})
     </insert>
+
+    <select id="selectPerssionSnByLogininfoId" resultType="java.lang.String">
+        select tp.sn from t_employee te
+        join t_employee_role ter on te.id = ter.employee_id
+        join t_role tr on ter.role_id = tr.id
+        join t_role_permission trp on tr.id = trp.role_id
+        join t_permission tp on tp.id = trp.permission_id
+        where te.logininfo_id = #{id}
+    </select>
 </mapper>
