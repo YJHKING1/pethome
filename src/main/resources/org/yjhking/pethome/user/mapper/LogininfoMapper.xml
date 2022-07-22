@@ -125,4 +125,43 @@
         or email = #{account,jdbcType=VARCHAR})
         and type = #{loginType,jdbcType=INTEGER}
     </select>
+
+    <select id="selectPermissionsByLogininfoId" resultType="java.lang.String">
+        select tp.sn from t_employee te
+        join t_employee_role ter on te.id = ter.employee_id
+        join t_role tr on ter.role_id = tr.id
+        join t_role_permission trp on tr.id = trp.role_id
+        join t_permission tp on tp.id = trp.permission_id
+        where te.logininfo_id = #{id}
+    </select>
+    <select id="selectMenusByLogininfoId" resultMap="MenuMap2">
+        select tm2.*,tm.id tid,
+        tm.name tname,tm.url turl,tm.intro tintro,tm.component tcomponent
+        from t_employee te
+        join t_employee_role ter on te.id = ter.employee_id
+        join t_role tr on ter.role_id = tr.id
+        join t_role_menu trm on tr.id = trm.role_id
+        join t_menu tm on trm.menu_id = tm.id
+        join t_menu tm2 on tm.parent_id = tm2.id
+        where te.logininfo_id = #{id}
+        order by tm2.`index`
+    </select>
+    <resultMap id="MenuMap2" type="org.yjhking.pethome.system.domain.Menu">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="component" property="component"/>
+        <result column="url" property="url"/>
+        <result column="icon" property="icon"/>
+        <result column="index" property="index"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="intro" property="intro"/>
+        <result column="state" property="state"/>
+        <collection property="children" ofType="org.yjhking.pethome.system.domain.Menu">
+            <result column="tid" property="id"/>
+            <result column="tname" property="name"/>
+            <result column="tcomponent" property="component"/>
+            <result column="turl" property="url"/>
+            <result column="tintro" property="intro"/>
+        </collection>
+    </resultMap>
 </mapper>

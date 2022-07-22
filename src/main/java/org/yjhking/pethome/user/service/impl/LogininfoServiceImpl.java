@@ -12,20 +12,25 @@ import org.yjhking.pethome.basic.service.impl.BaseServiceImpl;
 import org.yjhking.pethome.basic.util.HttpUtil;
 import org.yjhking.pethome.basic.util.Md5Utils;
 import org.yjhking.pethome.basic.util.StrUtils;
+import org.yjhking.pethome.system.domain.Menu;
+import org.yjhking.pethome.system.mapper.PermissionMapper;
 import org.yjhking.pethome.user.constants.WeiXinConstants;
 import org.yjhking.pethome.user.domain.Logininfo;
 import org.yjhking.pethome.user.domain.User;
 import org.yjhking.pethome.user.domain.Wxuser;
 import org.yjhking.pethome.user.dto.LoginDto;
+import org.yjhking.pethome.user.jwt.JwtUtils;
+import org.yjhking.pethome.user.jwt.LoginData;
+import org.yjhking.pethome.user.jwt.RsaUtils;
 import org.yjhking.pethome.user.mapper.LogininfoMapper;
 import org.yjhking.pethome.user.mapper.UserMapper;
 import org.yjhking.pethome.user.mapper.WxuserMapper;
 import org.yjhking.pethome.user.service.LogininfoService;
 
+import java.security.PrivateKey;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 登录业务层
@@ -42,6 +47,8 @@ public class LogininfoServiceImpl extends BaseServiceImpl<Logininfo> implements 
     private WxuserMapper wxuserMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private PermissionMapper permissionMapper;
     
     @Override
     public AjaxResult account(LoginDto loginDto) {
@@ -72,7 +79,7 @@ public class LogininfoServiceImpl extends BaseServiceImpl<Logininfo> implements 
         if (!logininfo.getDisable()) {
             throw new BusinessRuntimeException("账号已被禁用");
         }
-        // 生成tokens
+        /*// 生成tokens
         String token = UUID.randomUUID().toString();
         // 将盐值和密码设为空
         logininfo.setSalt(null);
@@ -84,11 +91,45 @@ public class LogininfoServiceImpl extends BaseServiceImpl<Logininfo> implements 
         Map<String, Object> map = new HashMap<>();
         // 将token可登录信息对象装入map
         map.put("token", token);
-        map.put("logininfo", logininfo);
+        map.put("logininfo", logininfo);*/
+        Map<String, Object> map = loginSuccessJwtHandler(logininfo);
         // 返回map
         AjaxResult ajaxResult = new AjaxResult();
         ajaxResult.setResultObj(map);
         return ajaxResult;
+    }
+    
+    private Map<String, Object> loginSuccessJwtHandler(Logininfo logininfo) {
+        //创建LoginData对象用于等会通过私钥加密
+        LoginData loginData = new LoginData();
+        loginData.setLogininfo(logininfo);
+        Map<String, Object> map = new HashMap<>();
+        try {
+            //1.获取logininfo
+            if (logininfo.getType() == 0) {//管理员
+                //2.获取当前登陆人的所有权限 - sn
+                List<String> permissions = logininfoMapper.selectPermissionsByLogininfoId(logininfo.getId());
+                //3.获取当前登陆人的所有菜单 - 【难度】
+                List<Menu> menus = logininfoMapper.selectMenusByLogininfoId(logininfo.getId());
+                loginData.setPermissions(permissions);
+                loginData.setMenus(menus);
+                //将当前登陆人的权限和菜单添加到map - 响应给前端
+                map.put("permissions", permissions);
+                map.put("menus", menus);
+            }
+            //4.通过私钥对登录信息进行加密 - jwtToken串
+            PrivateKey privateKey = RsaUtils.getPrivateKey(RsaUtils.class.getClassLoader()
+                    .getResource("auth_rsa.pri").getFile());
+            //将登陆人信息加密得到jwtToken串
+            String jwtToken = JwtUtils.generateTokenExpireInMinutes(loginData, privateKey, 30);
+            //5.装到map返回
+            map.put("token", jwtToken);
+            map.put("logininfo", logininfo);
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     
     @Override
@@ -107,7 +148,7 @@ public class LogininfoServiceImpl extends BaseServiceImpl<Logininfo> implements 
         Wxuser wxuser = wxuserMapper.selectByOpenid(openid);
         // 如果查询到，则登录成功，否则，响应给前端
         if (wxuser != null && wxuser.getUserId() != null && userMapper.selectByPrimaryKey(wxuser.getUserId()) != null) {
-            // 生成token
+            /*// 生成token
             String token = UUID.randomUUID().toString();
             // 通过微信用户id查询用户对象
             User user = userMapper.selectByPrimaryKey(wxuser.getUserId());
@@ -120,7 +161,10 @@ public class LogininfoServiceImpl extends BaseServiceImpl<Logininfo> implements 
             // 将token对象装入map
             map.put("token", token);
             // 将logininfo装入map
-            map.put("logininfo", logininfo);
+            map.put("logininfo", logininfo);*/
+            User user = userMapper.selectByPrimaryKey(wxuser.getUserId());
+            Logininfo logininfo = logininfoMapper.selectByPrimaryKey(user.getLogininfoId());
+            Map<String, Object> map = loginSuccessJwtHandler(logininfo);
             // 返回map
             AjaxResult ajaxResult = new AjaxResult();
             ajaxResult.setResultObj(map);
@@ -184,7 +228,7 @@ public class LogininfoServiceImpl extends BaseServiceImpl<Logininfo> implements 
         // 将微信用户保存进数据库
         wxuserMapper.insertSelective(wxuser);
         // 免密登录
-        // 获得token
+        /*// 获得token
         String token = UUID.randomUUID().toString();
         // 通过用户的登录信息查询登录信息对象
         Logininfo logininfo = logininfoMapper.selectByPrimaryKey(user.getLogininfoId());
@@ -198,7 +242,9 @@ public class LogininfoServiceImpl extends BaseServiceImpl<Logininfo> implements 
         redisTemplate.opsForValue().set(token, logininfo, 30, TimeUnit.MINUTES);
         // 将token和登录信息保存到map集合中
         reMap.put("token", token);
-        reMap.put("logininfo", logininfo);
+        reMap.put("logininfo", logininfo);*/
+        Logininfo logininfo = logininfoMapper.selectByPrimaryKey(user.getLogininfoId());
+        Map<String, Object> reMap = loginSuccessJwtHandler(logininfo);
         // 返回map集合
         return new AjaxResult(true, "绑定成功", reMap);
     }

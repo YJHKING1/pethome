@@ -28,10 +28,12 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee> implements Em
     @Transactional
     @Override
     public Integer insertSelective(Employee employee) {
-        String salt = StrUtils.getComplexRandomString(32);
-        String password = Md5Utils.encrypByMd5(employee.getPassword() + salt);
-        employee.setSalt(salt);
-        employee.setPassword(password);
+        if (employee.getPassword() == null) {
+            String salt = StrUtils.getComplexRandomString(32);
+            String password = Md5Utils.encrypByMd5(employee.getPassword() + salt);
+            employee.setSalt(salt);
+            employee.setPassword(password);
+        }
         Logininfo logininfo = employee2Logininfo(employee);
         logininfoMapper.insertSelective(logininfo);
         employee.setLogininfoId(logininfo.getId());
@@ -44,10 +46,12 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee> implements Em
     @Transactional
     @Override
     public Integer updateByPrimaryKeySelective(Employee employee) {
-        String salt = StrUtils.getComplexRandomString(32);
-        String password = Md5Utils.encrypByMd5(employee.getPassword() + salt);
-        employee.setSalt(salt);
-        employee.setPassword(password);
+        if (employee.getPassword() == null) {
+            String salt = StrUtils.getComplexRandomString(32);
+            String password = Md5Utils.encrypByMd5(employee.getPassword() + salt);
+            employee.setSalt(salt);
+            employee.setPassword(password);
+        }
         Logininfo logininfo = employee2Logininfo(employee);
         // 查询员工的登录信息id
         Long logininfoId = employeeMapper.selectByPrimaryKey(employee.getId()).getLogininfoId();
