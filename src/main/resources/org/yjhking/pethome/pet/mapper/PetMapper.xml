@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yjhking.pethome.pet.mapper.PetMapper">
+    <resultMap id="BaseResultMap" type="org.yjhking.pethome.pet.domain.Pet">
+        <!--@Table t_pet-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="costprice" jdbcType="DECIMAL" property="costprice"/>
+        <result column="saleprice" jdbcType="DECIMAL" property="saleprice"/>
+        <result column="type_id" jdbcType="BIGINT" property="typeId"/>
+        <result column="resources" jdbcType="VARCHAR" property="resources"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="offsaletime" jdbcType="TIMESTAMP" property="offsaletime"/>
+        <result column="onsaletime" jdbcType="TIMESTAMP" property="onsaletime"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="shop_id" jdbcType="BIGINT" property="shopId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="search_master_msg_id" jdbcType="BIGINT" property="searchMasterMsgId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        `name`,
+        costprice,
+        saleprice,
+        type_id,
+        resources,
+        `state`,
+        offsaletime,
+        onsaletime,
+        createtime,
+        shop_id,
+        user_id,
+        search_master_msg_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_pet
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_pet
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="org.yjhking.pethome.pet.domain.Pet"
+            useGeneratedKeys="true">
+        insert into t_pet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="costprice != null">
+                costprice,
+            </if>
+            <if test="saleprice != null">
+                saleprice,
+            </if>
+            <if test="typeId != null">
+                type_id,
+            </if>
+            <if test="resources != null">
+                resources,
+            </if>
+            <if test="state != null">
+                `state`,
+            </if>
+            <if test="offsaletime != null">
+                offsaletime,
+            </if>
+            <if test="onsaletime != null">
+                onsaletime,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="shopId != null">
+                shop_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="searchMasterMsgId != null">
+                search_master_msg_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="costprice != null">
+                #{costprice,jdbcType=DECIMAL},
+            </if>
+            <if test="saleprice != null">
+                #{saleprice,jdbcType=DECIMAL},
+            </if>
+            <if test="typeId != null">
+                #{typeId,jdbcType=BIGINT},
+            </if>
+            <if test="resources != null">
+                #{resources,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="offsaletime != null">
+                #{offsaletime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="onsaletime != null">
+                #{onsaletime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shopId != null">
+                #{shopId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="searchMasterMsgId != null">
+                #{searchMasterMsgId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.yjhking.pethome.pet.domain.Pet">
+        update t_pet
+        <set>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="costprice != null">
+                costprice = #{costprice,jdbcType=DECIMAL},
+            </if>
+            <if test="saleprice != null">
+                saleprice = #{saleprice,jdbcType=DECIMAL},
+            </if>
+            <if test="typeId != null">
+                type_id = #{typeId,jdbcType=BIGINT},
+            </if>
+            <if test="resources != null">
+                resources = #{resources,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                `state` = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="offsaletime != null">
+                offsaletime = #{offsaletime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="onsaletime != null">
+                onsaletime = #{onsaletime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shopId != null">
+                shop_id = #{shopId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="searchMasterMsgId != null">
+                search_master_msg_id = #{searchMasterMsgId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_pet
+    </select>
+    <select id="queryCount" resultType="Long">
+        select count(*)
+        from t_pet
+        <include refid="querySql"/>
+    </select>
+    <select id="queryData" resultMap="ReturnMap">
+        select p.*,pt.id ptid,pt.name ptname,s.id sid,s.name sname,u.id uid,u.username uname,smm.id smmid,smm.name
+        smmname
+        from t_pet p
+        left join t_pet_type pt on p.type_id = pt.id
+        left join t_shop s on p.shop_id = s.id
+        left join t_user u on p.user_id = u.id
+        left join t_search_master_msg smm on p.search_master_msg_id = smm.id
+        <include refid="querySql"/>
+        order by id
+        limit #{begin},#{pageSize}
+    </select>
+    <sql id="querySql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and name like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+    </sql>
+    <resultMap id="ReturnMap" type="org.yjhking.pethome.pet.domain.Pet">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="costprice" jdbcType="DECIMAL" property="costprice"/>
+        <result column="saleprice" jdbcType="DECIMAL" property="saleprice"/>
+        <result column="type_id" jdbcType="BIGINT" property="typeId"/>
+        <result column="resources" jdbcType="VARCHAR" property="resources"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="offsaletime" jdbcType="TIMESTAMP" property="offsaletime"/>
+        <result column="onsaletime" jdbcType="TIMESTAMP" property="onsaletime"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="shop_id" jdbcType="BIGINT" property="shopId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="search_master_msg_id" jdbcType="BIGINT" property="searchMasterMsgId"/>
+        <association property="petType" javaType="org.yjhking.pethome.pet.domain.PetType">
+            <id column="ptid" property="id"/>
+            <result column="ptname" property="name"/>
+        </association>
+        <association property="shop" javaType="org.yjhking.pethome.org.domain.Shop">
+            <id column="sid" property="id"/>
+            <result column="sname" property="name"/>
+        </association>
+        <association property="user" javaType="org.yjhking.pethome.user.domain.User">
+            <id column="uid" property="id"/>
+            <result column="uname" property="username"/>
+        </association>
+        <association property="searchMasterMsg" javaType="org.yjhking.pethome.pet.domain.SearchMasterMsg">
+            <id column="smmid" property="id"/>
+            <result column="smmname" property="name"/>
+        </association>
+    </resultMap>
+    <delete id="patchDelete">
+        delete
+        from t_pet
+        where id in
+        <foreach collection="list" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

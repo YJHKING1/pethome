@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yjhking.pethome.pet.mapper.SearchMasterMsgMapper">
+    <resultMap id="BaseResultMap" type="org.yjhking.pethome.pet.domain.SearchMasterMsg">
+        <!--@Table t_search_master_msg-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="age" jdbcType="INTEGER" property="age"/>
+        <result column="gender" jdbcType="BOOLEAN" property="gender"/>
+        <result column="coat_color" jdbcType="VARCHAR" property="coatColor"/>
+        <result column="resources" jdbcType="VARCHAR" property="resources"/>
+        <result column="pet_type" jdbcType="BIGINT" property="petType"/>
+        <result column="price" jdbcType="DECIMAL" property="price"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="shop_id" jdbcType="BIGINT" property="shopId"/>
+        <result column="note" jdbcType="LONGVARCHAR" property="note"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        title,
+        `state`,
+        `name`,
+        age,
+        gender,
+        coat_color,
+        resources,
+        pet_type,
+        price,
+        address,
+        user_id,
+        shop_id,
+        note
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_search_master_msg
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_search_master_msg
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="org.yjhking.pethome.pet.domain.SearchMasterMsg" useGeneratedKeys="true">
+        insert into t_search_master_msg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                title,
+            </if>
+            <if test="state != null">
+                `state`,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="coatColor != null">
+                coat_color,
+            </if>
+            <if test="resources != null">
+                resources,
+            </if>
+            <if test="petType != null">
+                pet_type,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="shopId != null">
+                shop_id,
+            </if>
+            <if test="note != null">
+                note,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                #{age,jdbcType=INTEGER},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=BOOLEAN},
+            </if>
+            <if test="coatColor != null">
+                #{coatColor,jdbcType=VARCHAR},
+            </if>
+            <if test="resources != null">
+                #{resources,jdbcType=VARCHAR},
+            </if>
+            <if test="petType != null">
+                #{petType,jdbcType=BIGINT},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="shopId != null">
+                #{shopId,jdbcType=BIGINT},
+            </if>
+            <if test="note != null">
+                #{note,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.yjhking.pethome.pet.domain.SearchMasterMsg">
+        update t_search_master_msg
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                `state` = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=BOOLEAN},
+            </if>
+            <if test="coatColor != null">
+                coat_color = #{coatColor,jdbcType=VARCHAR},
+            </if>
+            <if test="resources != null">
+                resources = #{resources,jdbcType=VARCHAR},
+            </if>
+            <if test="petType != null">
+                pet_type = #{petType,jdbcType=BIGINT},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="shopId != null">
+                shop_id = #{shopId,jdbcType=BIGINT},
+            </if>
+            <if test="note != null">
+                note = #{note,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_search_master_msg
+    </select>
+</mapper>

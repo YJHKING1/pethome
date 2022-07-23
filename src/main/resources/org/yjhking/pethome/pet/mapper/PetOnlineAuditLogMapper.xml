@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yjhking.pethome.pet.mapper.PetOnlineAuditLogMapper">
+  <resultMap id="BaseResultMap" type="org.yjhking.pethome.pet.domain.PetOnlineAuditLog">
+    <!--@Table t_pet_online_audit_log-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="pet_id" jdbcType="BIGINT" property="petId" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="audit_id" jdbcType="BIGINT" property="auditId" />
+    <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pet_id, `state`, audit_id, audit_time, note
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_pet_online_audit_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_pet_online_audit_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="org.yjhking.pethome.pet.domain.PetOnlineAuditLog" useGeneratedKeys="true">
+    insert into t_pet_online_audit_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="petId != null">
+        pet_id,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="auditId != null">
+        audit_id,
+      </if>
+      <if test="auditTime != null">
+        audit_time,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="petId != null">
+        #{petId,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="auditId != null">
+        #{auditId,jdbcType=BIGINT},
+      </if>
+      <if test="auditTime != null">
+        #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.yjhking.pethome.pet.domain.PetOnlineAuditLog">
+    update t_pet_online_audit_log
+    <set>
+      <if test="petId != null">
+        pet_id = #{petId,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="auditId != null">
+        audit_id = #{auditId,jdbcType=BIGINT},
+      </if>
+      <if test="auditTime != null">
+        audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

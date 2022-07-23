@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yjhking.pethome.pet.mapper.PetDetailMapper">
+  <resultMap id="BaseResultMap" type="org.yjhking.pethome.pet.domain.PetDetail">
+    <!--@Table t_pet_detail-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="pet_id" jdbcType="BIGINT" property="petId" />
+    <result column="adoptNotice" jdbcType="LONGVARCHAR" property="adoptnotice" />
+    <result column="intro" jdbcType="LONGVARCHAR" property="intro" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pet_id, adoptNotice, intro
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_pet_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_pet_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="org.yjhking.pethome.pet.domain.PetDetail" useGeneratedKeys="true">
+    insert into t_pet_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="petId != null">
+        pet_id,
+      </if>
+      <if test="adoptnotice != null">
+        adoptNotice,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="petId != null">
+        #{petId,jdbcType=BIGINT},
+      </if>
+      <if test="adoptnotice != null">
+        #{adoptnotice,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.yjhking.pethome.pet.domain.PetDetail">
+    update t_pet_detail
+    <set>
+      <if test="petId != null">
+        pet_id = #{petId,jdbcType=BIGINT},
+      </if>
+      <if test="adoptnotice != null">
+        adoptNotice = #{adoptnotice,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
