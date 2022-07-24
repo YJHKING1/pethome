@@ -39,7 +39,7 @@ public class Pet extends BaseDomain {
     private Date onsaletime;
     
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date createtime;
+    private Date createtime = new Date();
     
     private Long shopId;
     /**
@@ -58,4 +58,8 @@ public class Pet extends BaseDomain {
      * 寻主消息
      */
     private SearchMasterMsg searchMasterMsg;
+    /**
+     * 宠物明细
+     */
+    private PetDetail petDetail;
 }

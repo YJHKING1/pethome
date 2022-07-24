@@ -31,7 +31,7 @@ public class MyWebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/login/**")
                 // 放行注册
                 .excludePathPatterns("/user/*/register", "/verifyCode/**")
-                .excludePathPatterns("/shop/settlement", "/fastdfs")
+                .excludePathPatterns("/shop/settlement", "/fastDfs")
                 .excludePathPatterns("/shop/active/*", "/user/register/*", "/user/active/*");
     }
 }

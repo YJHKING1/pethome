@@ -158,9 +158,7 @@
             <if test="userId != null">
                 user_id = #{userId,jdbcType=BIGINT},
             </if>
-            <if test="searchMasterMsgId != null">
-                search_master_msg_id = #{searchMasterMsgId,jdbcType=BIGINT},
-            </if>
+            search_master_msg_id = #{searchMasterMsgId,jdbcType=BIGINT},
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
@@ -176,14 +174,15 @@
     </select>
     <select id="queryData" resultMap="ReturnMap">
         select p.*,pt.id ptid,pt.name ptname,s.id sid,s.name sname,u.id uid,u.username uname,smm.id smmid,smm.name
-        smmname
+        smmname,pd.id pdid,pd.pet_id pdpid,pd.adoptNotice pdad,pd.intro pdin
         from t_pet p
         left join t_pet_type pt on p.type_id = pt.id
         left join t_shop s on p.shop_id = s.id
         left join t_user u on p.user_id = u.id
         left join t_search_master_msg smm on p.search_master_msg_id = smm.id
+        left join t_pet_detail pd on pd.pet_id = p.id
         <include refid="querySql"/>
-        order by id
+        order by p.id
         limit #{begin},#{pageSize}
     </select>
     <sql id="querySql">
@@ -223,6 +222,12 @@
             <id column="smmid" property="id"/>
             <result column="smmname" property="name"/>
         </association>
+        <association property="petDetail" javaType="org.yjhking.pethome.pet.domain.PetDetail">
+            <id column="pdid" property="id"/>
+            <result column="pdpid" property="petId"/>
+            <result column="pdad" property="adoptnotice"/>
+            <result column="pdin" property="intro"/>
+        </association>
     </resultMap>
     <delete id="patchDelete">
         delete
@@ -232,4 +237,15 @@
             #{id}
         </foreach>
     </delete>
+    <!-- 宠物上架：void onsale(Map<String, Object> params); -->
+    <update id="onsale" parameterType="map">
+        update t_pet set onsaletime = #{onsaletime},state = 1 where id = #{id}
+    </update>
+    <!-- 宠物下架：void offsale(Map<String, Object> params); -->
+    <update id="offsale" parameterType="map">
+        update t_pet set offsaletime = #{offsaletime},state = 0 where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
 </mapper>

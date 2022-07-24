@@ -218,4 +218,8 @@
         join t_permission tp on tp.id = trp.permission_id
         where te.logininfo_id = #{id}
     </select>
+
+    <select id="selectByLogininfoId" resultMap="BaseResultMap">
+        select * from t_employee where logininfo_id = #{id}
+    </select>
 </mapper>

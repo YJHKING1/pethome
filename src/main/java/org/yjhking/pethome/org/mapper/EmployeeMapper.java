@@ -16,4 +16,6 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
     void insertEmployeeRole(Employee employee);
     
     List<String> selectPerssionSnByLogininfoId(Long id);
+    
+    Employee selectByLogininfoId(Long id);
 }

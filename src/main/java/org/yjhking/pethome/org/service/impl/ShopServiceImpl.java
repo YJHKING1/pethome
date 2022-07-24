@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
+import org.yjhking.pethome.basic.constants.FastDfsImgConstants;
 import org.yjhking.pethome.basic.service.impl.BaseServiceImpl;
 import org.yjhking.pethome.basic.util.BaiduAiUtils;
 import org.yjhking.pethome.basic.util.Md5Utils;
@@ -70,7 +71,7 @@ public class ShopServiceImpl extends BaseServiceImpl<Shop> implements ShopServic
             throw new BusinessRuntimeException("店铺名称不合法");
         }
         // 审核店铺logo是否合法
-        String imgUrl = "http://123.207.27.208" + shop.getLogo();
+        String imgUrl = FastDfsImgConstants.IMG_SERVER_PREFIX_URL + shop.getLogo();
         if (!BaiduAiUtils.imgCensor(imgUrl)) {
             throw new BusinessRuntimeException("店铺logo不合法");
         }

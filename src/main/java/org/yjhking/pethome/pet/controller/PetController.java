@@ -9,6 +9,7 @@ import org.yjhking.pethome.pet.domain.PetType;
 import org.yjhking.pethome.pet.query.PetQuery;
 import org.yjhking.pethome.pet.service.PetService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -134,6 +135,40 @@ public class PetController {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+    
+    /**
+     * 宠物上架
+     *
+     * @param ids     要上架的id集合
+     * @param request 请求
+     * @return 返回信息
+     */
+    @PostMapping("/onsale")
+    public AjaxResult onsale(@RequestBody List<Long> ids, HttpServletRequest request) {
+        try {
+            return petService.onsale(ids, request);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new AjaxResult(false, "上架失败");
+        }
+    }
+    
+    /**
+     * 宠物下架
+     *
+     * @param ids     要下架的id集合
+     * @param request 请求
+     * @return 返回信息
+     */
+    @PostMapping("/offsale")
+    public AjaxResult offsale(@RequestBody List<Long> ids, HttpServletRequest request) {
+        try {
+            return petService.offsale(ids, request);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new AjaxResult(false, "下架失败");
         }
     }
 }
