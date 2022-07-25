@@ -1,9 +1,9 @@
 package org.yjhking.pethome.pet.service.impl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.yjhking.pethome.basic.constants.FastDfsImgConstants;
 import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.service.impl.BaseServiceImpl;
@@ -110,12 +110,24 @@ public class PetServiceImpl extends BaseServiceImpl<Pet> implements PetService {
             String auditText = pet.getName();
             Boolean textBoo = BaiduAiUtils.textCensor(auditText);
             // 审核图片：多张图片resources
-            String petResources = FastDfsImgConstants.IMG_SERVER_PREFIX_URL + pet.getResources();
             Boolean imageBoo = true;
-            if (!StringUtils.isEmpty(petResources)) {
-                imageBoo = BaiduAiUtils.imgCensor(petResources);
+            // 图片途径是否为空
+            if (StringUtils.hasLength(pet.getResources())) {
+                // 判断是否有多张图片
+                if (pet.getResources().contains(",")) {
+                    String[] resources = pet.getResources().split(",");
+                    for (String resource : resources) {
+                        String petResources = FastDfsImgConstants.IMG_SERVER_PREFIX_URL + resource;
+                        imageBoo = BaiduAiUtils.imgCensor(petResources);
+                        if (!imageBoo) {
+                            break;
+                        }
+                    }
+                } else {
+                    String petResources = FastDfsImgConstants.IMG_SERVER_PREFIX_URL + pet.getResources();
+                    imageBoo = BaiduAiUtils.imgCensor(petResources);
+                }
             }
-            
             // 获取审核人
             Logininfo logininfo = (Logininfo) LoginContext.getLoginUser(request);
             Employee employee = employeeMapper.selectByLogininfoId(logininfo.getId());

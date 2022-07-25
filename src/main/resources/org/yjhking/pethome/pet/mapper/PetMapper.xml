@@ -32,14 +32,39 @@
         user_id,
         search_master_msg_id
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from t_pet
-        where id = #{id,jdbcType=BIGINT}
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="PetMap2">
+        select p.*, d.id did, d.intro, d.adoptNotice, s.id sid, s.name sname
+        from t_pet p
+        left join t_pet_detail d on p.id = d.pet_id
+        left join t_shop s on p.shop_id = s.id
+        where p.id = #{id}
     </select>
+    <resultMap id="PetMap2" type="org.yjhking.pethome.pet.domain.Pet">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="resources" column="resources"/>
+        <result property="saleprice" column="saleprice"/>
+        <result property="costprice" column="costprice"/>
+        <result property="offsaletime" column="offsaletime"/>
+        <result property="onsaletime" column="onsaletime"/>
+        <result property="state" column="state"/>
+        <result property="createtime" column="createtime"/>
+        <result property="typeId" column="type_id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="userId" column="user_id"/>
+        <association property="petDetail" javaType="org.yjhking.pethome.pet.domain.PetDetail">
+            <id property="id" column="did"/>
+            <result property="intro" column="intro"/>
+            <result property="adoptnotice" column="adoptNotice"/>
+        </association>
+        <association property="shop" javaType="org.yjhking.pethome.org.domain.Shop">
+            <id property="id" column="sid"/>
+            <result property="name" column="sname"/>
+        </association>
+    </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from t_pet
+        delete
+        from t_pet
         where id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="org.yjhking.pethome.pet.domain.Pet"
@@ -169,12 +194,24 @@
     </select>
     <select id="queryCount" resultType="Long">
         select count(*)
-        from t_pet
+        from t_pet p
         <include refid="querySql"/>
     </select>
     <select id="queryData" resultMap="ReturnMap">
-        select p.*,pt.id ptid,pt.name ptname,s.id sid,s.name sname,u.id uid,u.username uname,smm.id smmid,smm.name
-        smmname,pd.id pdid,pd.pet_id pdpid,pd.adoptNotice pdad,pd.intro pdin
+        select p.*,
+        pt.id ptid,
+        pt.name ptname,
+        s.id sid,
+        s.name sname,
+        u.id uid,
+        u.username uname,
+        smm.id smmid,
+        smm.name
+        smmname,
+        pd.id pdid,
+        pd.pet_id pdpid,
+        pd.adoptNotice pdad,
+        pd.intro pdin
         from t_pet p
         left join t_pet_type pt on p.type_id = pt.id
         left join t_shop s on p.shop_id = s.id
@@ -188,7 +225,11 @@
     <sql id="querySql">
         <where>
             <if test="keyword != null and keyword != ''">
-                and name like concat('%', #{keyword}, '%')
+                and p.name like concat('%', #{keyword}, '%')
+            </if>
+            <!-- 如果为null，后台系统分页查询，如果不为null,就是前台系统分页查询 -->
+            <if test="state != null">
+                and p.state = #{state}
             </if>
         </where>
     </sql>
@@ -239,11 +280,16 @@
     </delete>
     <!-- 宠物上架：void onsale(Map<String, Object> params); -->
     <update id="onsale" parameterType="map">
-        update t_pet set onsaletime = #{onsaletime},state = 1 where id = #{id}
+        update t_pet
+        set onsaletime = #{onsaletime},
+        state = 1
+        where id = #{id}
     </update>
     <!-- 宠物下架：void offsale(Map<String, Object> params); -->
     <update id="offsale" parameterType="map">
-        update t_pet set offsaletime = #{offsaletime},state = 0 where id in
+        update t_pet
+        set offsaletime = #{offsaletime},
+        state = 0 where id in
         <foreach collection="ids" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>

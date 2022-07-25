@@ -121,7 +121,8 @@ public class LogininfoServiceImpl extends BaseServiceImpl<Logininfo> implements 
             PrivateKey privateKey = RsaUtils.getPrivateKey(RsaUtils.class.getClassLoader()
                     .getResource("auth_rsa.pri").getFile());
             //将登陆人信息加密得到jwtToken串
-            String jwtToken = JwtUtils.generateTokenExpireInMinutes(loginData, privateKey, 30);
+            // todo 登录过期时间
+            String jwtToken = JwtUtils.generateTokenExpireInMinutes(loginData, privateKey, 30000);
             //5.装到map返回
             map.put("token", jwtToken);
             map.put("logininfo", logininfo);
