@@ -14,4 +14,8 @@ public class PetQuery extends BaseQuery {
      * 上下架状态
      */
     private Integer state;
+    /**
+     * 商店id
+     */
+    private Long shopId;
 }

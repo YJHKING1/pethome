@@ -231,6 +231,9 @@
             <if test="state != null">
                 and p.state = #{state}
             </if>
+            <if test="shopId != null">
+                and p.shop_id = #{shopId}
+            </if>
         </where>
     </sql>
     <resultMap id="ReturnMap" type="org.yjhking.pethome.pet.domain.Pet">
