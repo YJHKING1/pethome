@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yjhking.pethome.order.mapper.OrderProductDetailMapper">
+  <resultMap id="BaseResultMap" type="org.yjhking.pethome.order.domain.OrderProductDetail">
+    <!--@Table t_order_product_detail-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="resources" jdbcType="VARCHAR" property="resources" />
+    <result column="saleprice" jdbcType="DECIMAL" property="saleprice" />
+    <result column="offsaletime" jdbcType="TIMESTAMP" property="offsaletime" />
+    <result column="onsaletime" jdbcType="TIMESTAMP" property="onsaletime" />
+    <result column="state" jdbcType="BIGINT" property="state" />
+    <result column="costprice" jdbcType="VARCHAR" property="costprice" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="salecount" jdbcType="BIGINT" property="salecount" />
+    <result column="product_id" jdbcType="BIGINT" property="productId" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, `name`, resources, saleprice, offsaletime, onsaletime, `state`, costprice, createtime, 
+    salecount, product_id, order_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order_product_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_order_product_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="org.yjhking.pethome.order.domain.OrderProductDetail" useGeneratedKeys="true">
+    insert into t_order_product_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="resources != null">
+        resources,
+      </if>
+      <if test="saleprice != null">
+        saleprice,
+      </if>
+      <if test="offsaletime != null">
+        offsaletime,
+      </if>
+      <if test="onsaletime != null">
+        onsaletime,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="costprice != null">
+        costprice,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="salecount != null">
+        salecount,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="resources != null">
+        #{resources,jdbcType=VARCHAR},
+      </if>
+      <if test="saleprice != null">
+        #{saleprice,jdbcType=DECIMAL},
+      </if>
+      <if test="offsaletime != null">
+        #{offsaletime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onsaletime != null">
+        #{onsaletime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=BIGINT},
+      </if>
+      <if test="costprice != null">
+        #{costprice,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salecount != null">
+        #{salecount,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.yjhking.pethome.order.domain.OrderProductDetail">
+    update t_order_product_detail
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="resources != null">
+        resources = #{resources,jdbcType=VARCHAR},
+      </if>
+      <if test="saleprice != null">
+        saleprice = #{saleprice,jdbcType=DECIMAL},
+      </if>
+      <if test="offsaletime != null">
+        offsaletime = #{offsaletime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onsaletime != null">
+        onsaletime = #{onsaletime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=BIGINT},
+      </if>
+      <if test="costprice != null">
+        costprice = #{costprice,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salecount != null">
+        salecount = #{salecount,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

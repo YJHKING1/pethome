@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yjhking.pethome.order.mapper.OrderAddressMapper">
+  <resultMap id="BaseResultMap" type="org.yjhking.pethome.order.domain.OrderAddress">
+    <!--@Table t_order_address-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="orderSn" jdbcType="VARCHAR" property="ordersn" />
+    <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+    <result column="areaCode" jdbcType="VARCHAR" property="areacode" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="fullAddress" jdbcType="VARCHAR" property="fulladdress" />
+    <result column="phone" jdbcType="CHAR" property="phone" />
+    <result column="phoneBack" jdbcType="VARCHAR" property="phoneback" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="postCode" jdbcType="VARCHAR" property="postcode" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, createTime, updateTime, order_id, orderSn, contacts, areaCode, address, fullAddress, 
+    phone, phoneBack, tel, postCode, email
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order_address
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_order_address
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="org.yjhking.pethome.order.domain.OrderAddress" useGeneratedKeys="true">
+    insert into t_order_address
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="ordersn != null">
+        orderSn,
+      </if>
+      <if test="contacts != null">
+        contacts,
+      </if>
+      <if test="areacode != null">
+        areaCode,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="fulladdress != null">
+        fullAddress,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="phoneback != null">
+        phoneBack,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="postcode != null">
+        postCode,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="ordersn != null">
+        #{ordersn,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null">
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null">
+        #{areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="fulladdress != null">
+        #{fulladdress,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=CHAR},
+      </if>
+      <if test="phoneback != null">
+        #{phoneback,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.yjhking.pethome.order.domain.OrderAddress">
+    update t_order_address
+    <set>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="ordersn != null">
+        orderSn = #{ordersn,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null">
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null">
+        areaCode = #{areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="fulladdress != null">
+        fullAddress = #{fulladdress,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=CHAR},
+      </if>
+      <if test="phoneback != null">
+        phoneBack = #{phoneback,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        postCode = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
