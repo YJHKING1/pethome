@@ -180,4 +180,73 @@
         <include refid="Base_Column_List"/>
         from t_search_master_msg
     </select>
+    <select id="queryCount" resultType="Long">
+        select count(*)
+        from t_search_master_msg sm
+        <include refid="querySql"/>
+    </select>
+    <select id="queryData" resultMap="ReturnMap">
+        select sm.*,tpt.id tptid,tpt.name tptname, s.id sid,s.name sname,tu.id tuid,tu.username
+        from t_search_master_msg sm
+        left join t_pet_type tpt on sm.pet_type = tpt.id
+        left join t_shop s on sm.shop_id = s.id
+        left join t_user tu on sm.user_id = tu.id
+        <include refid="querySql"/>
+        limit #{begin},#{pageSize}
+    </select>
+    <resultMap id="ReturnMap" type="org.yjhking.pethome.pet.domain.SearchMasterMsg">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="state" property="state"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="gender" property="gender"/>
+        <result column="coat_color" property="coatColor"/>
+        <result column="resources" property="resources"/>
+        <result column="pet_type" property="petType"/>
+        <result column="price" property="price"/>
+        <result column="address" property="address"/>
+        <result column="user_id" property="userId"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="note" property="note"/>
+        <association property="type" javaType="org.yjhking.pethome.pet.domain.PetType">
+            <id column="tptid" property="id"/>
+            <result column="tptname" property="name"/>
+        </association>
+        <association property="shop" javaType="org.yjhking.pethome.org.domain.Shop">
+            <id column="sid" property="id"/>
+            <result column="sname" property="name"/>
+        </association>
+        <association property="user" javaType="org.yjhking.pethome.user.domain.User">
+            <id column="tuid" property="id"/>
+            <result column="username" property="username"/>
+        </association>
+    </resultMap>
+    <sql id="querySql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (sm.name like concat('%',#{keyword},'%'))
+            </if>
+            <if test="state != null">
+                <!-- state==1 and shopId!=null表示店铺管理员查询审核通过并分配了店铺的待处理寻主消息 -->
+                <if test="state == 1 and shopId != null">
+                    and sm.shop_id =#{shopId}
+                </if>
+                <!-- state==1 and shopId==null表示平台管理员查询审核通过并分配了店铺的待处理寻主消息 -->
+                <if test="state == 1 and shopId == null">
+                    and sm.shop_id is not null
+                </if>
+                <!-- 根据状态查询：审核驳回待审核0，审核通过待处理1，处理完成2 -->
+                and sm.state = #{state}
+            </if>
+            <!-- userId为null就是后台查询，不为bull就是前台用户查询自己的寻主消息 -->
+            <if test="userId != null">
+                and sm.user_id = #{userId}
+            </if>
+        </where>
+    </sql>
+
+    <update id="reject">
+        update t_search_master_msg set shop_id = null where id = #{searchMasterMsgId}
+    </update>
 </mapper>

@@ -8,4 +8,6 @@ import org.yjhking.pethome.user.domain.User;
  */
 public interface UserMapper extends BaseMapper<User> {
     User selectByPhone(String phone);
+    
+    User selectByLogininfoId(Long logininfoId);
 }

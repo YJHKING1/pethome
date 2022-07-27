@@ -9,8 +9,5 @@ import org.yjhking.pethome.basic.query.BaseQuery;
  * @author YJH
  */
 @Data
-public class SearchMasterMsgQuery extends BaseQuery {
-    private Long shopId;
-    private Long userId;
-    private Integer state;
+public class SearchMasterMsgAuditLogQuery extends BaseQuery {
 }

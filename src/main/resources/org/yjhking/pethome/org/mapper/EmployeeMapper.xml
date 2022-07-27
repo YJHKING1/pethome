@@ -222,4 +222,8 @@
     <select id="selectByLogininfoId" resultMap="BaseResultMap">
         select * from t_employee where logininfo_id = #{id}
     </select>
+
+    <select id="selectEmpByShopId" resultMap="BaseResultMap">
+        select * from t_employee where shop_id=#{shopId}
+    </select>
 </mapper>

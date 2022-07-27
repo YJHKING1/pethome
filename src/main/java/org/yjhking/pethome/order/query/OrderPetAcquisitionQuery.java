@@ -1,4 +1,4 @@
-package org.yjhking.pethome.pet.query;
+package org.yjhking.pethome.order.query;
 
 import lombok.Data;
 import org.yjhking.pethome.basic.query.BaseQuery;
@@ -9,8 +9,7 @@ import org.yjhking.pethome.basic.query.BaseQuery;
  * @author YJH
  */
 @Data
-public class SearchMasterMsgQuery extends BaseQuery {
+public class OrderPetAcquisitionQuery extends BaseQuery {
+    private Long employeeId;
     private Long shopId;
-    private Long userId;
-    private Integer state;
 }

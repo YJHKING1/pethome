@@ -86,6 +86,8 @@ public class BaiduAiUtils {
     }
     
     public static Boolean textCensor(String text) {
+        System.out.println("要审核的文字");
+        System.out.println(text);
         // 请求url
         String url = "https://aip.baidubce.com/rest/2.0/solution/v1/text_censor/v2/user_defined";
         try {
@@ -105,6 +107,8 @@ public class BaiduAiUtils {
     }
     
     public static Boolean imgCensor(String imgUrl) {
+        System.out.println("要审核的图片地址");
+        System.out.println(imgUrl);
         // 请求url
         String url = "https://aip.baidubce.com/rest/2.0/solution/v1/img_censor/v2/user_defined";
         try {

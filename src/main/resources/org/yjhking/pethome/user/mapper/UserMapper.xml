@@ -153,4 +153,10 @@
         <include refid="Base_Column_List"/>
         from t_user where phone = #{phone,jdbcType=VARCHAR}
     </select>
+
+    <select id="selectByLogininfoId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user where logininfo_id = #{logininfoId,jdbcType=BIGINT}
+    </select>
 </mapper>
