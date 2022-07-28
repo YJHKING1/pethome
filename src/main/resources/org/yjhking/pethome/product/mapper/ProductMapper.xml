@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yjhking.pethome.product.mapper.ProductMapper">
+    <resultMap id="BaseResultMap" type="org.yjhking.pethome.product.domain.Product">
+        <!--@Table t_product-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="costprice" jdbcType="DECIMAL" property="costprice"/>
+        <result column="saleprice" jdbcType="DECIMAL" property="saleprice"/>
+        <result column="resources" jdbcType="VARCHAR" property="resources"/>
+        <result column="salecount" jdbcType="BIGINT" property="salecount"/>
+        <result column="state" jdbcType="BIGINT" property="state"/>
+        <result column="offsaletime" jdbcType="TIMESTAMP" property="offsaletime"/>
+        <result column="onsaletime" jdbcType="TIMESTAMP" property="onsaletime"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        `name`,
+        costprice,
+        saleprice,
+        resources,
+        salecount,
+        `state`,
+        offsaletime,
+        onsaletime,
+        createtime
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ReturnMap">
+        select p.*,pd.id pdid,pd.product_id pdpid,pd.intro pdi,pd.orderNotice pdon
+        from t_product p
+        left join t_product_detail pd on pd.product_id = p.id
+        where p.id = #{id}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_product
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="org.yjhking.pethome.product.domain.Product" useGeneratedKeys="true">
+        insert into t_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="costprice != null">
+                costprice,
+            </if>
+            <if test="saleprice != null">
+                saleprice,
+            </if>
+            <if test="resources != null">
+                resources,
+            </if>
+            <if test="salecount != null">
+                salecount,
+            </if>
+            <if test="state != null">
+                `state`,
+            </if>
+            <if test="offsaletime != null">
+                offsaletime,
+            </if>
+            <if test="onsaletime != null">
+                onsaletime,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="costprice != null">
+                #{costprice,jdbcType=DECIMAL},
+            </if>
+            <if test="saleprice != null">
+                #{saleprice,jdbcType=DECIMAL},
+            </if>
+            <if test="resources != null">
+                #{resources,jdbcType=VARCHAR},
+            </if>
+            <if test="salecount != null">
+                #{salecount,jdbcType=BIGINT},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=BIGINT},
+            </if>
+            <if test="offsaletime != null">
+                #{offsaletime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="onsaletime != null">
+                #{onsaletime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.yjhking.pethome.product.domain.Product">
+        update t_product
+        <set>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="costprice != null">
+                costprice = #{costprice,jdbcType=DECIMAL},
+            </if>
+            <if test="saleprice != null">
+                saleprice = #{saleprice,jdbcType=DECIMAL},
+            </if>
+            <if test="resources != null">
+                resources = #{resources,jdbcType=VARCHAR},
+            </if>
+            <if test="salecount != null">
+                salecount = #{salecount,jdbcType=BIGINT},
+            </if>
+            <if test="state != null">
+                `state` = #{state,jdbcType=BIGINT},
+            </if>
+            <if test="offsaletime != null">
+                offsaletime = #{offsaletime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="onsaletime != null">
+                onsaletime = #{onsaletime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_product
+    </select>
+    <select id="queryCount" resultType="Long">
+        select count(*)
+        from t_product p
+        <include refid="querySql"/>
+    </select>
+    <sql id="querySql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and p.name like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+    </sql>
+    <select id="queryData" resultMap="ReturnMap">
+        select p.*,pd.id pdid,pd.product_id pdpid,pd.intro pdi,pd.orderNotice pdon
+        from t_product p
+        left join t_product_detail pd on pd.product_id = p.id
+        <include refid="querySql"/>
+        order by p.id
+        limit #{begin},#{pageSize}
+    </select>
+    <resultMap id="ReturnMap" type="org.yjhking.pethome.product.domain.Product">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="costprice" jdbcType="DECIMAL" property="costprice"/>
+        <result column="saleprice" jdbcType="DECIMAL" property="saleprice"/>
+        <result column="resources" jdbcType="VARCHAR" property="resources"/>
+        <result column="salecount" jdbcType="BIGINT" property="salecount"/>
+        <result column="state" jdbcType="BIGINT" property="state"/>
+        <result column="offsaletime" jdbcType="TIMESTAMP" property="offsaletime"/>
+        <result column="onsaletime" jdbcType="TIMESTAMP" property="onsaletime"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <association property="productDetail" javaType="org.yjhking.pethome.product.domain.ProductDetail">
+            <id column="pdid" property="id"/>
+            <result column="pdpid" property="productId"/>
+            <result column="pdi" property="intro"/>
+            <result column="pdon" property="ordernotice"/>
+        </association>
+    </resultMap>
+    <delete id="patchDelete">
+        delete
+        from t_product
+        where id in
+        <foreach collection="list" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <update id="onsale" parameterType="map">
+        update t_product
+        set onsaletime = #{onsaletime},
+        state = 1
+        where id = #{id}
+    </update>
+    <update id="offsale" parameterType="map">
+        update t_product
+        set offsaletime = #{offsaletime},
+        state = 0 where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

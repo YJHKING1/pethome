@@ -25,6 +25,7 @@ public class FastDfsController {
             String substring = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
             // 拿到文件上传路径
             String upload = FastDfsUtils.upload(file.getBytes(), substring);
+            System.out.println("图片上传路径：" + upload);
             // 返回上传路径
             result.setResultObj(upload);
             return result;

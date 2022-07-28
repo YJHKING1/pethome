@@ -44,7 +44,7 @@ public class PetServiceImpl extends BaseServiceImpl<Pet> implements PetService {
     @Override
     @Transactional
     public Integer deleteByPrimaryKey(Long id) {
-        petDetailMapper.deleteByPrimaryKey(id);
+        petDetailMapper.deleteByPetId(id);
         super.deleteByPrimaryKey(id);
         return null;
     }
@@ -78,7 +78,7 @@ public class PetServiceImpl extends BaseServiceImpl<Pet> implements PetService {
     @Override
     @Transactional
     public void patchDelete(List<Long> ids) {
-        petDetailMapper.patchDelete(ids);
+        petDetailMapper.patchDeleteByPetIds(ids);
         super.patchDelete(ids);
     }
     
