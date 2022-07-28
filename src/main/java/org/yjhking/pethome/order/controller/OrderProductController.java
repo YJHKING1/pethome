@@ -16,7 +16,7 @@ import java.util.List;
  * @author xxxxx
  */
 @RestController
-@RequestMapping("/productOrder")
+@RequestMapping("/orderProduct")
 public class OrderProductController {
     @Autowired
     private OrderProductService orderProductService;

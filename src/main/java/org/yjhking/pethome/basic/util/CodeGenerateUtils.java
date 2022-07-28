@@ -4,7 +4,11 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-
+/**
+ * 订单工具类
+ *
+ * @author YJH
+ */
 public class CodeGenerateUtils {
     
     /**
@@ -66,14 +70,4 @@ public class CodeGenerateUtils {
         timestampPart = timestampPart.substring(0, 5);
         return dateTime + timestampPart;
     }
-    
-    public static void main(String[] args) {
-        for (long i = 0; i < 100; i++) {
-            //String timestampPart = ""+(Math.random() * 10000) * (System.currentTimeMillis()/10000);
-            //System.out.println(timestampPart);
-            //System.out.println(generateOrderSn(i));
-            System.out.println(generateUnionPaySn());
-        }
-    }
-    
 }
