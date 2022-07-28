@@ -245,7 +245,6 @@
             </if>
         </where>
     </sql>
-
     <update id="reject">
         update t_search_master_msg set shop_id = null where id = #{searchMasterMsgId}
     </update>

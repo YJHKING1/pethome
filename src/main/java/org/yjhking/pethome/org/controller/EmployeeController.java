@@ -118,4 +118,9 @@ public class EmployeeController {
         }
         return ajaxResult;
     }
+    
+    @GetMapping("/list/{id}")
+    public List<Employee> findByShopId(@PathVariable Long id) {
+        return employeeService.selectByShopId(id);
+    }
 }

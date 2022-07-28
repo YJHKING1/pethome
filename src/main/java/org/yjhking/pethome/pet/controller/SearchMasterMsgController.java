@@ -134,8 +134,7 @@ public class SearchMasterMsgController {
     @PostMapping("/publish")
     public AjaxResult publish(@RequestBody SearchMasterMsg searchMasterMsg, HttpServletRequest request) {
         try {
-            searchMasterMsgService.publish(searchMasterMsg, request);
-            return AjaxResult.me();
+            return searchMasterMsgService.publish(searchMasterMsg, request);
         } catch (BusinessRuntimeException e) {
             e.printStackTrace();
             return new AjaxResult(false, "发布失败!");
@@ -154,14 +153,16 @@ public class SearchMasterMsgController {
         return searchMasterMsgService.queryData(query);
     }
     
-    // 寻主池：查询审核通过还没有分配店铺或者被拒单的寻主消息 - state=1，ShopId为null
-    /*@PostMapping("/toSearchMasterPool")
-    public PageList<SearchMasterMsg> toSearchMasterPool(@RequestBody SearchMasterMsgQuery query){
+    /**
+     * 寻主池：查询审核通过还没有分配店铺或者被拒单的寻主消息 - state=1，ShopId为null
+     */
+    @PostMapping("/toSearchMasterPool")
+    public PageList<SearchMasterMsg> toSearchMasterPool(@RequestBody SearchMasterMsgQuery query) {
         query.setState(1);
         //由于寻主池查询条件和待处理查询条件冲突，但是查询的结构不一样，所以寻主池业务需要重新写
         //查询state=1，shopId is null的寻主消息
         return searchMasterMsgService.queryPagePool(query);
-    }*/
+    }
     
     /**
      * 已完成：查询已完成的寻主消息 - 平台管理员才能查询 - 可以通过按钮权限限制，这里不做判断

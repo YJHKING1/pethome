@@ -13,6 +13,8 @@ import org.yjhking.pethome.org.service.EmployeeService;
 import org.yjhking.pethome.user.domain.Logininfo;
 import org.yjhking.pethome.user.mapper.LogininfoMapper;
 
+import java.util.List;
+
 /**
  * 部门业务层
  *
@@ -77,5 +79,10 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee> implements Em
         logininfoMapper.deleteByPrimaryKey(employee.getLogininfoId());
         employeeMapper.deleteEmployeeRoleByEmployeeId(id);
         return super.deleteByPrimaryKey(id);
+    }
+    
+    @Override
+    public List<Employee> selectByShopId(Long id) {
+        return employeeMapper.selectEmpByShopId(id);
     }
 }

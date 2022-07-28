@@ -1,5 +1,6 @@
 package org.yjhking.pethome.pet.service;
 
+import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.service.BaseService;
 import org.yjhking.pethome.basic.util.PageList;
 import org.yjhking.pethome.pet.domain.SearchMasterMsg;
@@ -12,7 +13,7 @@ import java.util.Map;
  * @author YJH
  */
 public interface SearchMasterMsgService extends BaseService<SearchMasterMsg> {
-    void publish(SearchMasterMsg searchMasterMsg, HttpServletRequest request);
+    AjaxResult publish(SearchMasterMsg searchMasterMsg, HttpServletRequest request);
     
     PageList<SearchMasterMsg> userSearchMasterMsg(SearchMasterMsgQuery query, HttpServletRequest request);
     
@@ -21,4 +22,6 @@ public interface SearchMasterMsgService extends BaseService<SearchMasterMsg> {
     void reject(Long id);
     
     void accept(Map<String, Object> params);
+    
+    PageList<SearchMasterMsg> queryPagePool(SearchMasterMsgQuery query);
 }

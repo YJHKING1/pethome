@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
 import org.yjhking.pethome.basic.constants.FastDfsImgConstants;
 import org.yjhking.pethome.basic.dto.Point;
+import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.service.impl.BaseServiceImpl;
 import org.yjhking.pethome.basic.util.*;
 import org.yjhking.pethome.order.domain.OrderPetAcquisition;
@@ -52,7 +53,7 @@ public class SearchMasterMsgServiceImpl extends BaseServiceImpl<SearchMasterMsg>
     
     @Override
     @Transactional
-    public void publish(SearchMasterMsg searchMasterMsg, HttpServletRequest request) {
+    public AjaxResult publish(SearchMasterMsg searchMasterMsg, HttpServletRequest request) {
         // 获取发布寻主消息的用户
         Logininfo logininfo = (Logininfo) LoginContext.getLoginUser(request);
         assert logininfo != null;
@@ -94,7 +95,7 @@ public class SearchMasterMsgServiceImpl extends BaseServiceImpl<SearchMasterMsg>
             log.setState((byte) 1);// 驳回
             log.setNote("审核成功，happy");
             searchMasterMsgAuditLogMapper.insertSelective(log);
-            
+            return new AjaxResult(true, "发布成功");
         } else {
             // 修改状态和日志
             searchMasterMsg.setState(0);
@@ -107,7 +108,7 @@ public class SearchMasterMsgServiceImpl extends BaseServiceImpl<SearchMasterMsg>
             log.setState((byte) 0);// 驳回
             log.setNote("审核失败，内容非法");
             searchMasterMsgAuditLogMapper.insertSelective(log);
-            throw new BusinessRuntimeException("审核失败，内容非法");
+            return new AjaxResult(false, "审核失败，内容非法");
             /*
              其他思路：也可以将审核失败的寻主消息对象传递到前端【resultObj】，
              前端显示这个寻主消息数据做修改操作，直到这个寻主消息审核通过，这样就不会存在审核不通过的寻主消息每次点击都会加到数据库一次
@@ -166,6 +167,11 @@ public class SearchMasterMsgServiceImpl extends BaseServiceImpl<SearchMasterMsg>
         //3 发送消息给对应的工作人员
         System.out.println(handler.getEmail() + "-->邮件通知：您有新的" + order.getOrdersn() + "订单要处理！");
         //System.out.println(handler.getPhone()+"-->短信通知：您有新的"+order.getOrderSn()+"订单要处理！");
+    }
+    
+    @Override
+    public PageList<SearchMasterMsg> queryPagePool(SearchMasterMsgQuery query) {
+        return super.queryData(query);
     }
     
     private OrderPetAcquisition buildPetAcquisitionOrder(SearchMasterMsg searchMasterMsg, Employee handler, Pet pet) {

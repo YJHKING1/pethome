@@ -3,10 +3,13 @@ package org.yjhking.pethome.org.service;
 import org.yjhking.pethome.basic.service.BaseService;
 import org.yjhking.pethome.org.domain.Employee;
 
+import java.util.List;
+
 /**
  * 部门业务层接口
  *
  * @author YJH
  */
 public interface EmployeeService extends BaseService<Employee> {
+    List<Employee> selectByShopId(Long id);
 }
