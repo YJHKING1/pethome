@@ -75,10 +75,21 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
     
     @Override
     public AjaxResult onsale(List<Long> ids, HttpServletRequest request) {
+        // 避免重复上架
+        if (ids.size() == 1) {
+            Product product = productMapper.selectByPrimaryKey(ids.get(0));
+            if (product.getState() == 1) {
+                return new AjaxResult(false, "该商品已经上架！");
+            }
+        }
         // 上架 -不能用批量操作，有上架审核
         for (Long id : ids) {
             // 上架自动审核文本
             Product product = productMapper.selectByPrimaryKey(id);
+            // 避免重复上架
+            if (product.getState() == 1) {
+                continue;
+            }
             String auditText = product.getName();
             Boolean textBoo = BaiduAiUtils.textCensor(auditText);
             // 审核图片：多张图片resources
@@ -137,6 +148,12 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
     
     @Override
     public AjaxResult offsale(List<Long> ids, HttpServletRequest request) {
+        if (ids.size() == 1) {
+            Product product = productMapper.selectByPrimaryKey(ids.get(0));
+            if (product.getState() == 0) {
+                return new AjaxResult(false, "该商品已经下架！");
+            }
+        }
         // 下架：修改state为0，offsaletime为当前时间 ,可以用批量操作
         Map<String, Object> params = new HashMap<>();
         params.put("ids", ids);

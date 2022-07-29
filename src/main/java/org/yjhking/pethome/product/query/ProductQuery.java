@@ -10,4 +10,5 @@ import org.yjhking.pethome.basic.query.BaseQuery;
  */
 @Data
 public class ProductQuery extends BaseQuery {
+    private Integer state;
 }
