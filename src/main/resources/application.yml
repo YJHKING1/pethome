@@ -1,0 +1,56 @@
+logging:
+  level:
+    org:
+      yjhking:
+        pethome: trace
+mybatis:
+  type-aliases-package: org.yjhking.pethome.*.domain,org.yjhking.pethome.*.query
+#rocketmq配置信息
+rocketmq:
+  #nameservice服务器地址（多个以英文逗号隔开）
+  name-server: 127.0.0.1:9876
+  #生产者配置
+  producer:
+    #组名
+    group: anran-producer-group
+    #目的地（topic:tag）
+    #topic
+    topic: anran-topic
+    #sync tag(同步消息tag)
+    sync-tag: anran-sync-tags
+    #async tag(异步消息tag)
+    async-tag: anran-async-tags
+    #oneway tag(单向消息tag)
+    oneway-tag: anran-oneway-tags
+server:
+  port: 8080
+  servlet:
+    context-path: /
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: root
+    url: jdbc:mysql:///pethome?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+  mail:
+    host: smtp.qq.com
+    password: ywohygnzrlgybfgc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    username: 910480155@qq.com
+  redis:
+    database: 0
+    host: localhost
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: 2000ms
+        min-idle: 2
+    password: root
+    port: 6379
