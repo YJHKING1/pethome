@@ -119,7 +119,7 @@ public class VerifyServiceImpl implements VerifyService {
         redisTemplate.opsForValue().set(prefix + phone,
                 code + ":" + System.currentTimeMillis(), 3, TimeUnit.MINUTES);
         // 发短信
-//        String smsCode = SmsUtils.sendSms(phone, "宠物乐园：您的验证码为：" + code + "请在3分钟内使用");
+        // String smsCode = SmsUtils.sendSms(phone, "宠物乐园：您的验证码为：" + code + "请在3分钟内使用");
         // 测试
         System.out.println(phone + "的验证码为" + code);
     }
