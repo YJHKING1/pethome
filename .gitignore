@@ -4,6 +4,27 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Local config / secrets ###
+.env
+.env.*
+!.env.example
+application-local.properties
+application-local.yml
+application-dev-local.properties
+application-dev-local.yml
+application-prod.properties
+application-prod.yml
+*.secret
+*.secrets
+
+### Logs ###
+logs/
+*.log
+
+### OS ###
+.DS_Store
+Thumbs.db
+
 ### STS ###
 .apt_generated
 .classpath
