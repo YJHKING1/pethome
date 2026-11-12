@@ -65,12 +65,6 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
         </dependency>
-        <!--fastdfs-->
-        <dependency>
-            <groupId>cn.bestwu</groupId>
-            <artifactId>fastdfs-client-java</artifactId>
-            <version>1.27</version>
-        </dependency>
         <!--用来获取文件扩展名的包-->
         <dependency>
             <groupId>commons-io</groupId>
