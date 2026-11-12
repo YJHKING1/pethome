@@ -1,7 +1,11 @@
 package org.yjhking.pethome.user.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.yjhking.pethome.basic.domain.BaseDomain;
 
 import java.util.Date;
@@ -18,8 +22,14 @@ public class User extends BaseDomain {
     
     private String email;
     
+    @JsonIgnore
+    @JSONField(serialize = false, deserialize = false)
+    @ToString.Exclude
     private String salt;
     
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JSONField(serialize = false)
+    @ToString.Exclude
     private String password;
     
     private Integer state;
