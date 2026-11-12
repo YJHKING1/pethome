@@ -93,3 +93,11 @@ openssl pkey -in jwt-private.pem -pubout -outform DER -out jwt-public.der
 数据库使用 `DB_URL`、`DB_USER` 和 `DB_PWD`。Redis 使用 `REDIS_HOST`、`REDIS_PORT`、`REDIS_DATABASE` 和 `REDIS_PWD`，邮件使用 `MAIL_HOST`、`MAIL_USER` 和 `MAIL_PWD`。微信登录读取 `PETHOME_WECHAT_APP_ID` 和 `PETHOME_WECHAT_APP_SECRET`，百度内容审核读取 `BAIDU_AI_API_KEY` 和 `BAIDU_AI_SECRET_KEY`。
 
 店铺 Excel 导入和导出需要后台管理员分别具备 `shop:import` 和 `shop:export`。部署后在角色管理中授予对应权限，并同时更新管理前端。
+
+## 后台管理权限
+
+用户、员工、角色、权限和菜单管理接口分别使用 `user`、`employee`、`role`、`permission` 和 `menu` 权限前缀。每类的 `:list` 用于查询，`:save` 用于新增和修改，`:delete` 用于单条和批量删除。
+
+升级时先在受信的数据库管理会话中核对 `t_permission` 的权限编号和 `t_role_permission` 的管理员角色关联，再切换流量。首次启用这些权限时需要为受信管理员建立上述关联，普通后台角色仅分配其工作所需的操作。编辑员工需要查询角色列表，编辑角色需要查询权限列表和菜单树。
+
+登录账号和微信绑定记录通过登录、注册、绑定流程维护，原通用 `/logininfo` 和 `/wxwxuser` 接口已移除。

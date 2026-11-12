@@ -2,6 +2,7 @@ package org.yjhking.pethome.system.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.yjhking.pethome.basic.annotation.PreAuthorize;
 import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.PageList;
 import org.yjhking.pethome.system.domain.Menu;
@@ -26,6 +27,7 @@ public class MenuController {
      *
      * @return 查询结果
      */
+    @PreAuthorize(name = "查看菜单", sn = "menu:list")
     @GetMapping
     public List<Menu> findAll() {
         return menuService.selectAll();
@@ -37,6 +39,7 @@ public class MenuController {
      * @param id 查找id
      * @return 查询结果
      */
+    @PreAuthorize(name = "查看菜单", sn = "menu:list")
     @GetMapping("/{id}")
     public Menu findById(@PathVariable Long id) {
         return menuService.selectByPrimaryKey(id);
@@ -48,6 +51,7 @@ public class MenuController {
      * @param id 删除id
      * @return 返回信息
      */
+    @PreAuthorize(name = "删除菜单", sn = "menu:delete")
     @DeleteMapping("/{id}")
     public AjaxResult deleteById(@PathVariable Long id) {
         AjaxResult ajaxResult = new AjaxResult();
@@ -67,6 +71,7 @@ public class MenuController {
      * @param menu 增加或修改内容
      * @return 返回信息
      */
+    @PreAuthorize(name = "保存菜单", sn = "menu:save")
     @PutMapping
     public AjaxResult add(@RequestBody Menu menu) {
         AjaxResult ajaxResult = new AjaxResult();
@@ -97,6 +102,7 @@ public class MenuController {
      * @param menuQuery 高级分页查询参数
      * @return 查询结果
      */
+    @PreAuthorize(name = "查看菜单", sn = "menu:list")
     @PostMapping
     public PageList<Menu> queryPage(@RequestBody MenuQuery menuQuery) {
         return menuService.queryData(menuQuery);
@@ -108,6 +114,7 @@ public class MenuController {
      * @param ids 要删除的id集合
      * @return 返回信息
      */
+    @PreAuthorize(name = "删除菜单", sn = "menu:delete")
     @PatchMapping
     public AjaxResult patchDelete(@RequestBody List<Long> ids) {
         AjaxResult ajaxResult = new AjaxResult();
@@ -126,6 +133,7 @@ public class MenuController {
      *
      * @return 菜单树
      */
+    @PreAuthorize(name = "查看菜单", sn = "menu:list")
     @GetMapping("/tree")
     public List<Menu> menuTree() {
         try {

@@ -2,6 +2,7 @@ package org.yjhking.pethome.org.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.yjhking.pethome.basic.annotation.PreAuthorize;
 import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.PageList;
 import org.yjhking.pethome.org.domain.Employee;
@@ -24,6 +25,7 @@ public class EmployeeController {
      *
      * @return 查询结果
      */
+    @PreAuthorize(name = "查看员工", sn = "employee:list")
     @GetMapping
     public List<Employee> findAll() {
         return employeeService.selectAll();
@@ -35,6 +37,7 @@ public class EmployeeController {
      * @param id 查找id
      * @return 查询结果
      */
+    @PreAuthorize(name = "查看员工", sn = "employee:list")
     @GetMapping("/{id}")
     public Employee findById(@PathVariable Long id) {
         return employeeService.selectByPrimaryKey(id);
@@ -46,6 +49,7 @@ public class EmployeeController {
      * @param id 删除id
      * @return 返回信息
      */
+    @PreAuthorize(name = "删除员工", sn = "employee:delete")
     @DeleteMapping("/{id}")
     public AjaxResult deleteById(@PathVariable Long id) {
         AjaxResult ajaxResult = new AjaxResult();
@@ -65,6 +69,7 @@ public class EmployeeController {
      * @param employee 增加或修改内容
      * @return 返回信息
      */
+    @PreAuthorize(name = "保存员工", sn = "employee:save")
     @PutMapping
     public AjaxResult add(@RequestBody Employee employee) {
         AjaxResult ajaxResult = new AjaxResult();
@@ -95,6 +100,7 @@ public class EmployeeController {
      * @param employeeQuery 高级分页查询参数
      * @return 查询结果
      */
+    @PreAuthorize(name = "查看员工", sn = "employee:list")
     @PostMapping
     public PageList<Employee> queryPage(@RequestBody EmployeeQuery employeeQuery) {
         return employeeService.queryData(employeeQuery);
@@ -106,6 +112,7 @@ public class EmployeeController {
      * @param ids 要删除的id集合
      * @return 返回信息
      */
+    @PreAuthorize(name = "删除员工", sn = "employee:delete")
     @PatchMapping
     public AjaxResult patchDelete(@RequestBody List<Long> ids) {
         AjaxResult ajaxResult = new AjaxResult();
