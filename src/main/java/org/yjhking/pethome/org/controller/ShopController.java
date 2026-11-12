@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.yjhking.pethome.basic.annotation.PreAuthorize;
-import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
 import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.ExcelUtils;
 import org.yjhking.pethome.basic.util.PageList;
 import org.yjhking.pethome.org.domain.Shop;
-import org.yjhking.pethome.org.domain.ShopAuditLog;
 import org.yjhking.pethome.org.dto.ShopDto;
 import org.yjhking.pethome.org.query.ShopQuery;
 import org.yjhking.pethome.org.service.ShopService;
@@ -53,6 +51,7 @@ public class ShopController {
      * @param id 删除id
      * @return 返回信息
      */
+    @PreAuthorize(name = "删除店铺", sn = "shop:delete")
     @DeleteMapping("/{id}")
     public AjaxResult deleteById(@PathVariable Long id) {
         AjaxResult ajaxResult = new AjaxResult();
@@ -72,6 +71,7 @@ public class ShopController {
      * @param shop 增加或修改内容
      * @return 返回信息
      */
+    @PreAuthorize(name = "保存店铺", sn = "shop:save")
     @PutMapping
     public AjaxResult add(@RequestBody Shop shop) {
         AjaxResult ajaxResult = new AjaxResult();
@@ -113,6 +113,7 @@ public class ShopController {
      * @param ids 要删除的id集合
      * @return 返回信息
      */
+    @PreAuthorize(name = "删除店铺", sn = "shop:delete")
     @PatchMapping
     public AjaxResult patchDelete(@RequestBody List<Long> ids) {
         AjaxResult ajaxResult = new AjaxResult();
@@ -124,81 +125,6 @@ public class ShopController {
             ajaxResult.setMsg("批量删除失败");
         }
         return ajaxResult;
-    }
-    
-    /**
-     * 店铺入驻
-     *
-     * @param shop 店铺信息
-     * @return 返回信息
-     */
-    @PostMapping("/settlement")
-    public AjaxResult settlement(@RequestBody Shop shop) {
-        AjaxResult ajaxResult = new AjaxResult();
-        try {
-            shopService.settlement(shop);
-        } catch (BusinessRuntimeException e) {
-            e.printStackTrace();
-            ajaxResult.setSuccess(false);
-            ajaxResult.setMsg(e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            ajaxResult.setSuccess(false);
-            ajaxResult.setMsg("系统错误");
-        }
-        return ajaxResult;
-    }
-    
-    /**
-     * 店铺审核通过
-     *
-     * @param log 店铺审核信息
-     * @return 返回信息
-     */
-    @PostMapping("/audit/pass")
-    public AjaxResult pass(@RequestBody ShopAuditLog log) {
-        try {
-            shopService.pass(log);
-            return new AjaxResult();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new AjaxResult(false, "审核失败");
-        }
-    }
-    
-    /**
-     * 店铺审核驳回
-     *
-     * @param log 店铺审核信息
-     * @return 返回信息
-     */
-    @PostMapping("/audit/reject")
-    public AjaxResult reject(@RequestBody ShopAuditLog log) {
-        try {
-            shopService.reject(log);
-            return new AjaxResult();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new AjaxResult(false, "驳回失败");
-        }
-    }
-    
-    /**
-     * 店铺激活
-     *
-     * @param id 要激活的店铺id
-     * @return 返回信息
-     */
-    @GetMapping("/active/{id}")
-    public AjaxResult active(@PathVariable Long id, HttpServletResponse response) {
-        try {
-            shopService.active(id);
-            response.sendRedirect("http://localhost:8081/#/activation");
-            return new AjaxResult();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new AjaxResult(false, "激活失败");
-        }
     }
     
     /**

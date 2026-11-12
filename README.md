@@ -16,7 +16,6 @@ PetHome 是一个基于 Spring Boot 的宠物乐园后端练习项目，用于�
 - Redis / Jedis
 - Lombok
 - Swagger2
-- FastDFS
 - Spring Mail
 - JWT
 - Freemarker
@@ -103,3 +102,5 @@ openssl pkey -in jwt-private.pem -pubout -outform DER -out jwt-public.der
 登录账号和微信绑定记录通过登录、注册、绑定流程维护，原通用 `/logininfo` 和 `/wxwxuser` 接口已移除。
 
 员工与用户接口仅在写入时接收新密码。编辑资料时省略密码或留空会保留存量密码。通过后台管理接口新增的账号可暂不设置密码，设置前无法使用密码登录。
+
+FastDFS 上传、删除和依赖它的旧店铺自助入驻、审核及激活流程已下线。历史图片引用仍可读取。后台修改店铺需要 `shop:save`，删除店铺需要 `shop:delete`。
