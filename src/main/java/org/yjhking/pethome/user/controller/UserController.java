@@ -3,6 +3,7 @@ package org.yjhking.pethome.user.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
+import org.yjhking.pethome.basic.annotation.PreAuthorize;
 import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.PageList;
 import org.yjhking.pethome.user.domain.User;
@@ -29,6 +30,7 @@ public class UserController {
      *
      * @return 查询结果
      */
+    @PreAuthorize(name = "查看用户", sn = "user:list")
     @GetMapping
     public List<User> findAll() {
         return userService.selectAll();
@@ -40,6 +42,7 @@ public class UserController {
      * @param id 查找id
      * @return 查询结果
      */
+    @PreAuthorize(name = "查看用户", sn = "user:list")
     @GetMapping("/{id}")
     public User findById(@PathVariable Long id) {
         return userService.selectByPrimaryKey(id);
@@ -51,6 +54,7 @@ public class UserController {
      * @param id 删除id
      * @return 返回信息
      */
+    @PreAuthorize(name = "删除用户", sn = "user:delete")
     @DeleteMapping("/{id}")
     public AjaxResult deleteById(@PathVariable Long id) {
         AjaxResult ajaxResult = new AjaxResult();
@@ -70,6 +74,7 @@ public class UserController {
      * @param user 增加或修改内容
      * @return 返回信息
      */
+    @PreAuthorize(name = "保存用户", sn = "user:save")
     @PutMapping
     public AjaxResult add(@RequestBody User user) {
         AjaxResult ajaxResult = new AjaxResult();
@@ -100,6 +105,7 @@ public class UserController {
      * @param userQuery 高级分页查询参数
      * @return 查询结果
      */
+    @PreAuthorize(name = "查看用户", sn = "user:list")
     @PostMapping
     public PageList<User> queryPage(@RequestBody UserQuery userQuery) {
         return userService.queryData(userQuery);
@@ -111,6 +117,7 @@ public class UserController {
      * @param ids 要删除的id集合
      * @return 返回信息
      */
+    @PreAuthorize(name = "删除用户", sn = "user:delete")
     @PatchMapping
     public AjaxResult patchDelete(@RequestBody List<Long> ids) {
         AjaxResult ajaxResult = new AjaxResult();

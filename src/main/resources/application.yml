@@ -29,12 +29,12 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    password: root
-    url: jdbc:mysql:///pethome?useUnicode=true&characterEncoding=utf8&useSSL=false
-    username: root
+    password: '${DB_PWD}'
+    url: '${DB_URL}'
+    username: '${DB_USER:root}'
   mail:
-    host: smtp.qq.com
-    password: ywohygnzrlgybfgc
+    host: '${MAIL_HOST:smtp.qq.com}'
+    password: '${MAIL_PWD:}'
     properties:
       mail:
         smtp:
@@ -42,15 +42,15 @@ spring:
           starttls:
             enable: true
             required: true
-    username: 910480155@qq.com
+    username: '${MAIL_USER:}'
   redis:
-    database: 0
-    host: localhost
+    database: '${REDIS_DATABASE:0}'
+    host: '${REDIS_HOST:localhost}'
     jedis:
       pool:
         max-active: 8
         max-idle: 8
         max-wait: 2000ms
         min-idle: 2
-    password: root
-    port: 6379
+    password: '${REDIS_PWD:}'
+    port: '${REDIS_PORT:6379}'
