@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
 import org.yjhking.pethome.basic.constants.VerifyCodeConstants;
 import org.yjhking.pethome.basic.service.impl.BaseServiceImpl;
@@ -42,34 +43,41 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         return super.deleteByPrimaryKey(id);
     }
     
+    @Transactional
     @Override
     public Integer insertSelective(User user) {
-        // 获取32位随机盐值
-        String salt = StrUtils.getComplexRandomString(32);
-        // 获取MD5加密之后的密码
-        String password = Md5Utils.encrypByMd5(user.getPassword() + salt);
-        user.setSalt(salt);
-        user.setPassword(password);
+        encodePassword(user, "");
         Logininfo logininfo = user2Logininfo(user);
         logininfoMapper.insertSelective(logininfo);
+        user.setLogininfoId(logininfo.getId());
         return super.insertSelective(user);
     }
     
+    @Transactional
     @Override
     public Integer updateByPrimaryKeySelective(User user) {
-        // 获取32位随机盐值
-        String salt = StrUtils.getComplexRandomString(32);
-        // 获取MD5加密之后的密码
-        String password = Md5Utils.encrypByMd5(user.getPassword() + salt);
-        user.setSalt(salt);
-        user.setPassword(password);
+        encodePassword(user, null);
         Long logininfoId = userMapper.selectByPrimaryKey(user.getId()).getLogininfoId();
         Logininfo logininfo = user2Logininfo(user);
+        user.setLogininfoId(logininfoId);
         logininfo.setId(logininfoId);
+        logininfo.setDisable(null);
         logininfoMapper.updateByPrimaryKeySelective(logininfo);
         return super.updateByPrimaryKeySelective(user);
     }
     
+    private void encodePassword(User user, String missingValue) {
+        String rawPassword = user.getPassword();
+        if (!StringUtils.hasText(rawPassword)) {
+            user.setPassword(missingValue);
+            user.setSalt(missingValue);
+            return;
+        }
+        String salt = StrUtils.getComplexRandomString(32);
+        user.setSalt(salt);
+        user.setPassword(Md5Utils.encrypByMd5(rawPassword + salt));
+    }
+
     @Transactional
     @Override
     public void emailRegister(UserDto userDto) {

@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.yjhking.pethome.basic.service.impl.BaseServiceImpl;
 import org.yjhking.pethome.basic.util.Md5Utils;
 import org.yjhking.pethome.basic.util.StrUtils;
@@ -30,12 +31,7 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee> implements Em
     @Transactional
     @Override
     public Integer insertSelective(Employee employee) {
-        if (employee.getPassword() == null) {
-            String salt = StrUtils.getComplexRandomString(32);
-            String password = Md5Utils.encrypByMd5(employee.getPassword() + salt);
-            employee.setSalt(salt);
-            employee.setPassword(password);
-        }
+        encodePassword(employee, "");
         Logininfo logininfo = employee2Logininfo(employee);
         logininfoMapper.insertSelective(logininfo);
         employee.setLogininfoId(logininfo.getId());
@@ -48,16 +44,13 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee> implements Em
     @Transactional
     @Override
     public Integer updateByPrimaryKeySelective(Employee employee) {
-        if (employee.getPassword() == null) {
-            String salt = StrUtils.getComplexRandomString(32);
-            String password = Md5Utils.encrypByMd5(employee.getPassword() + salt);
-            employee.setSalt(salt);
-            employee.setPassword(password);
-        }
+        encodePassword(employee, null);
         Logininfo logininfo = employee2Logininfo(employee);
         // 查询员工的登录信息id
         Long logininfoId = employeeMapper.selectByPrimaryKey(employee.getId()).getLogininfoId();
+        employee.setLogininfoId(logininfoId);
         logininfo.setId(logininfoId);
+        logininfo.setDisable(null);
         logininfoMapper.updateByPrimaryKeySelective(logininfo);
         employeeMapper.deleteEmployeeRoleByEmployeeId(employee.getId());
         employeeMapper.insertEmployeeRole(employee);
@@ -65,6 +58,18 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee> implements Em
         return employeeMapper.updateByPrimaryKeySelective(employee);
     }
     
+    private void encodePassword(Employee employee, String missingValue) {
+        String rawPassword = employee.getPassword();
+        if (!StringUtils.hasText(rawPassword)) {
+            employee.setPassword(missingValue);
+            employee.setSalt(missingValue);
+            return;
+        }
+        String salt = StrUtils.getComplexRandomString(32);
+        employee.setSalt(salt);
+        employee.setPassword(Md5Utils.encrypByMd5(rawPassword + salt));
+    }
+
     private Logininfo employee2Logininfo(Employee employee) {
         Logininfo logininfo = new Logininfo();
         BeanUtils.copyProperties(employee, logininfo);
