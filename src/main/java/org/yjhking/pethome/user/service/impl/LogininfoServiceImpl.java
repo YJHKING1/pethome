@@ -3,6 +3,7 @@ package org.yjhking.pethome.user.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
@@ -21,13 +22,12 @@ import org.yjhking.pethome.user.domain.Wxuser;
 import org.yjhking.pethome.user.dto.LoginDto;
 import org.yjhking.pethome.user.jwt.JwtUtils;
 import org.yjhking.pethome.user.jwt.LoginData;
-import org.yjhking.pethome.user.jwt.RsaUtils;
+import org.yjhking.pethome.user.jwt.JwtKeys;
 import org.yjhking.pethome.user.mapper.LogininfoMapper;
 import org.yjhking.pethome.user.mapper.UserMapper;
 import org.yjhking.pethome.user.mapper.WxuserMapper;
 import org.yjhking.pethome.user.service.LogininfoService;
 
-import java.security.PrivateKey;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +41,12 @@ import java.util.Map;
 public class LogininfoServiceImpl extends BaseServiceImpl<Logininfo> implements LogininfoService {
     @Autowired
     private LogininfoMapper logininfoMapper;
+    @Autowired
+    private JwtKeys jwtKeys;
+    @Value("${PETHOME_WECHAT_APP_ID:}")
+    private String wechatAppId;
+    @Value("${PETHOME_WECHAT_APP_SECRET:}")
+    private String wechatAppSecret;
     @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
     @Autowired
@@ -102,6 +108,8 @@ public class LogininfoServiceImpl extends BaseServiceImpl<Logininfo> implements 
     private Map<String, Object> loginSuccessJwtHandler(Logininfo logininfo) {
         //创建LoginData对象用于等会通过私钥加密
         LoginData loginData = new LoginData();
+        logininfo.setPassword(null);
+        logininfo.setSalt(null);
         loginData.setLogininfo(logininfo);
         Map<String, Object> map = new HashMap<>();
         try {
@@ -118,11 +126,9 @@ public class LogininfoServiceImpl extends BaseServiceImpl<Logininfo> implements 
                 map.put("menus", menus);
             }
             //4.通过私钥对登录信息进行加密 - jwtToken串
-            PrivateKey privateKey = RsaUtils.getPrivateKey(RsaUtils.class.getClassLoader()
-                    .getResource("auth_rsa.pri").getFile());
             //将登陆人信息加密得到jwtToken串
             // todo 登录过期时间
-            String jwtToken = JwtUtils.generateTokenExpireInMinutes(loginData, privateKey, 30000);
+            String jwtToken = JwtUtils.generateTokenExpireInMinutes(loginData, jwtKeys.getPrivateKey(), 30000);
             //5.装到map返回
             map.put("token", jwtToken);
             map.put("logininfo", logininfo);
@@ -135,9 +141,12 @@ public class LogininfoServiceImpl extends BaseServiceImpl<Logininfo> implements 
     
     @Override
     public AjaxResult wechatLogin(String code) {
+        if (wechatAppId.isEmpty() || wechatAppSecret.isEmpty()) {
+            return new AjaxResult(false, "微信登录尚未配置");
+        }
         // 准备发送第二个请求的参数
-        String url = WeiXinConstants.GET_ACK_URL.replace("APPID", WeiXinConstants.APPID)
-                .replace("SECRET", WeiXinConstants.SECRET).replace("CODE", code);
+        String url = WeiXinConstants.GET_ACK_URL.replace("APPID", wechatAppId)
+                .replace("SECRET", wechatAppSecret).replace("CODE", code);
         // 发送请求，并返回json数据
         String jsonStr = HttpUtil.httpGet(url);
         // 转为json对象

@@ -3,6 +3,7 @@ package org.yjhking.pethome.org.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.yjhking.pethome.basic.annotation.PreAuthorize;
 import org.yjhking.pethome.basic.Exception.BusinessRuntimeException;
 import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.ExcelUtils;
@@ -205,6 +206,7 @@ public class ShopController {
      *
      * @param response 响应对象
      */
+    @PreAuthorize(name = "导出店铺", sn = "shop:export")
     @GetMapping("/export")
     public void export(HttpServletResponse response) {
         try {
@@ -220,6 +222,7 @@ public class ShopController {
      *
      * @param file 导入的文件
      */
+    @PreAuthorize(name = "导入店铺", sn = "shop:import")
     @PostMapping("/importExcel")
     public AjaxResult importExcel(@RequestPart("file") MultipartFile file) {
         try {
