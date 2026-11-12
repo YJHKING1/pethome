@@ -2,6 +2,7 @@ package org.yjhking.pethome.system.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.yjhking.pethome.basic.annotation.PreAuthorize;
 import org.yjhking.pethome.basic.query.AjaxResult;
 import org.yjhking.pethome.basic.util.PageList;
 import org.yjhking.pethome.system.domain.Role;
@@ -26,6 +27,7 @@ public class RoleController {
      *
      * @return 查询结果
      */
+    @PreAuthorize(name = "查看角色", sn = "role:list")
     @GetMapping
     public List<Role> findAll() {
         return roleService.selectAll();
@@ -37,6 +39,7 @@ public class RoleController {
      * @param id 查找id
      * @return 查询结果
      */
+    @PreAuthorize(name = "查看角色", sn = "role:list")
     @GetMapping("/{id}")
     public Role findById(@PathVariable Long id) {
         return roleService.selectByPrimaryKey(id);
@@ -48,6 +51,7 @@ public class RoleController {
      * @param id 删除id
      * @return 返回信息
      */
+    @PreAuthorize(name = "删除角色", sn = "role:delete")
     @DeleteMapping("/{id}")
     public AjaxResult deleteById(@PathVariable Long id) {
         AjaxResult ajaxResult = new AjaxResult();
@@ -67,6 +71,7 @@ public class RoleController {
      * @param role 增加或修改内容
      * @return 返回信息
      */
+    @PreAuthorize(name = "保存角色", sn = "role:save")
     @PutMapping
     public AjaxResult add(@RequestBody Role role) {
         AjaxResult ajaxResult = new AjaxResult();
@@ -97,6 +102,7 @@ public class RoleController {
      * @param roleQuery 高级分页查询参数
      * @return 查询结果
      */
+    @PreAuthorize(name = "查看角色", sn = "role:list")
     @PostMapping
     public PageList<Role> queryPage(@RequestBody RoleQuery roleQuery) {
         return roleService.queryData(roleQuery);
@@ -108,6 +114,7 @@ public class RoleController {
      * @param ids 要删除的id集合
      * @return 返回信息
      */
+    @PreAuthorize(name = "删除角色", sn = "role:delete")
     @PatchMapping
     public AjaxResult patchDelete(@RequestBody List<Long> ids) {
         AjaxResult ajaxResult = new AjaxResult();
